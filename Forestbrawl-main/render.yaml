@@ -4,7 +4,7 @@ services:
     runtime: node
     region: frankfurt
     plan: free
-    dir: ./Forestbrawl
+    dir: .
     buildCommand: npm ci
     startCommand: npm start
     healthCheckPath: /api/health
