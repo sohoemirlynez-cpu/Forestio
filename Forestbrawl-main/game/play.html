@@ -116,8 +116,11 @@ body>iframe[style]{
   pointer-events:none;
 }
 
+#left-stats-stack{
+  position:fixed;top:10px;left:10px;z-index:130;display:flex;flex-direction:column;align-items:flex-start;gap:8px;pointer-events:none;
+}
 #resource-hud{
-  position:fixed;top:10px;left:10px;transform:none;z-index:130;display:flex !important;align-items:center;justify-content:flex-start;gap:8px;padding:8px 12px;border-radius:16px;background:rgba(8,13,18,0.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);box-shadow:0 8px 24px rgba(0,0,0,0.35);visibility:visible !important;opacity:1 !important;width:auto !important;height:auto !important;max-width:none !important;max-height:none !important;pointer-events:auto !important;overflow:visible !important;clip-path:none !important;flex-wrap:nowrap;
+  position:relative;display:flex !important;align-items:center;justify-content:flex-start;gap:8px;padding:8px 12px;border-radius:16px;background:rgba(8,13,18,0.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);box-shadow:0 8px 24px rgba(0,0,0,0.35);visibility:visible !important;opacity:1 !important;width:auto !important;height:auto !important;max-width:calc(100vw - 26px) !important;pointer-events:auto !important;overflow:visible !important;clip-path:none !important;flex-wrap:nowrap;
 }
 #resource-hud, #resource-hud *, .res-item, .res-icon, .res-value {
   display:flex !important; visibility:visible !important; opacity:1 !important; overflow:visible !important; clip-path:none !important; pointer-events:auto !important;
@@ -125,18 +128,24 @@ body>iframe[style]{
 .res-item{
   display:flex;align-items:center;gap:6px;background:linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.09);padding:6px 10px;border-radius:12px;min-width:82px;justify-content:center;box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);
 }
-.res-item.wood .res-icon{color:#65d970;}
-.res-item.stone .res-icon{color:#c6d0db;}
-.res-item.gold .res-icon{color:#ffd64d;}
-.res-item.apple .res-icon{color:#ff7b7b;}
-.res-icon{font-size:16px;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.32));display:flex;align-items:center;justify-content:center;}
-.res-icon svg{display:block;width:18px;height:18px;overflow:visible;}
+.res-item.wood .res-icon{filter:drop-shadow(0 0 8px rgba(97,221,110,0.55));}
+.res-item.stone .res-icon{filter:drop-shadow(0 0 8px rgba(176,196,214,0.55));}
+.res-item.gold .res-icon{filter:drop-shadow(0 0 8px rgba(255,214,82,0.55));}
+.res-item.apple .res-icon{filter:drop-shadow(0 0 8px rgba(255,123,123,0.55));}
+.res-icon{font-size:16px;display:flex;align-items:center;justify-content:center;}
+.res-icon img, .res-icon svg{display:block;width:18px;height:18px;object-fit:contain;overflow:visible;}
 .res-value{font-size:12px;font-weight:900;letter-spacing:0.5px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.7);}
+#fps-display, #ping-display{
+  position:relative;top:auto;left:auto;transform:none;display:inline-flex!important;align-items:center;justify-content:center;min-width:76px;min-height:28px;background:rgba(0,0,0,0.72);border:1.5px solid rgba(255,255,255,0.22);border-radius:8px;padding:5px 10px;font-size:12px;font-weight:900;color:#44ff88;font-family:monospace;cursor:pointer;letter-spacing:0.4px;text-shadow:0 1px 3px #000;pointer-events:auto;
+}
+#ping-display{color:#aaffaa;}
 @media (max-width: 760px) and (orientation: portrait), (max-width: 900px) and (orientation: landscape){
-  #resource-hud{top:58px;left:10px;transform:none;gap:6px;padding:4px 6px;}
+  #left-stats-stack{top:8px;left:8px;gap:6px;}
+  #resource-hud{gap:6px;padding:5px 7px;max-width:calc(100vw - 18px) !important;}
   .res-item{min-width:68px;padding:5px 7px;border-radius:10px;}
-  .res-icon svg{width:16px;height:16px;}
+  .res-icon img, .res-icon svg{width:16px;height:16px;}
   .res-value{font-size:11px;}
+  #fps-display, #ping-display{font-size:11px;min-width:72px;padding:4px 8px;}
 }
 
 /* ===== RESOURCES PANEL — top-left horizontal bar (moomoo.io style) ===== */
@@ -1396,37 +1405,29 @@ function drawSkinEyesOverlay(c, R, sk, fl) {
   </div>
 </div>
 
-<!-- PING + FPS DISPLAY — centered at top -->
-<div id="ping-display" style="position:fixed;top:56px;left:105px;transform:none;z-index:900;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:3px 10px;font-size:12px;font-weight:800;color:#aaffaa;font-family:monospace;pointer-events:none;display:none;">🌐 --ms</div>
-<!-- FPS DISPLAY — shown below res-panel on left side, always visible once game loads -->
-<div id="fps-display" style="position:fixed;top:56px;left:10px;z-index:901;background:rgba(0,0,0,0.72);border:1.5px solid rgba(255,255,255,0.22);border-radius:8px;padding:5px 13px;font-size:14px;font-weight:900;color:#44ff88;font-family:monospace;cursor:pointer;min-width:80px;text-align:center;letter-spacing:0.5px;text-shadow:0 1px 3px #000;" onclick="document.getElementById('perf-panel').style.display=document.getElementById('perf-panel').style.display==='none'?'block':'none'">⚡ -- FPS</div>
-<div id="perf-panel" style="display:none;position:fixed;top:98px;left:10px;z-index:901;background:rgba(0,0,0,0.88);border:1.5px solid rgba(255,255,255,0.18);border-radius:10px;padding:10px 13px;font-size:11px;font-family:monospace;color:#ddd;pointer-events:none;width:260px;line-height:1.65;box-shadow:0 4px 18px rgba(0,0,0,0.7);"></div>
+<div id="left-stats-stack">
+  <div id="resource-hud" aria-label="Kaynak durumu">
+    <div class="res-item wood">
+      <span class="res-icon" aria-hidden="true"><img src="asset/tree-forest.png" alt="Odun" /></span>
+      <span id="wood-count" class="res-value">0</span>
+    </div>
+    <div class="res-item stone">
+      <span class="res-icon" aria-hidden="true"><img src="asset/rock-forest.png" alt="Taş" /></span>
+      <span id="stone-count" class="res-value">0</span>
+    </div>
+    <div class="res-item gold">
+      <span class="res-icon" aria-hidden="true"><img src="asset/gold.png" alt="Altın" /></span>
+      <span id="gold-count" class="res-value">0</span>
+    </div>
+    <div class="res-item apple">
+      <span class="res-icon" aria-hidden="true"><img src="asset/apple.png" alt="Elma" /></span>
+      <span id="apple-count" class="res-value">0</span>
+    </div>
+  </div>
 
-<div id="resource-hud" aria-label="Kaynak durumu">
-  <div class="res-item wood">
-    <span class="res-icon" aria-hidden="true">
-      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M31 17c-7 0-11 5-11 11 0 7 5 10 11 10 6 0 11-3 11-10 0-6-4-11-11-11Z" fill="#7ee06b"/><path d="M23 28c0-6 5-11 11-11s11 5 11 11c0 7-5 10-11 10s-11-3-11-10Zm7-8c-2 0-4 2-4 5 0 3 1 5 4 7l4 2 4-2c3-2 4-4 4-7 0-3-2-5-4-5-2 0-3 2-4 4-1-2-2-4-4-4Z" fill="#3cae46"/><rect x="29" y="33" width="4" height="18" rx="2" fill="#7d4f1d"/><path d="M25 39h12v4H25z" fill="#986427" opacity="0.8"/></svg>
-    </span>
-    <span id="wood-count" class="res-value">0</span>
-  </div>
-  <div class="res-item stone">
-    <span class="res-icon" aria-hidden="true">
-      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 26 32 14l16 12v18L32 56 16 44V26Z" fill="#c8ced8"/><path d="M16 26l16 12 16-12-16-12L16 26Z" fill="#dfe6ef"/><path d="M32 38v18" stroke="#9da7b4" stroke-width="3"/><path d="M16 26v18l16 12V38L16 26Z" fill="#aeb7c3" opacity="0.8"/><path d="M48 26v18L32 56V38l16-12Z" fill="#8f99a8" opacity="0.7"/></svg>
-    </span>
-    <span id="stone-count" class="res-value">0</span>
-  </div>
-  <div class="res-item gold">
-    <span class="res-icon" aria-hidden="true">
-      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="17" fill="#f7d24a" stroke="#f5b423" stroke-width="4"/><circle cx="32" cy="32" r="9" fill="#f9e9a1" opacity="0.8"/><path d="M32 18v7M32 39v7M18 32h7M39 32h7" stroke="#fff3b2" stroke-width="3" stroke-linecap="round"/></svg>
-    </span>
-    <span id="gold-count" class="res-value">0</span>
-  </div>
-  <div class="res-item apple">
-    <span class="res-icon" aria-hidden="true">
-      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34 16c-2-4-8-5-12-2-5 4-5 12 1 15 1 1 3 2 4 4 2 4 2 8 1 12h7c2-6 2-10 0-14 1-2 2-3 4-5 7-5 8-13 2-17-5-3-9-1-7 7Z" fill="#ef5f63"/><path d="M32 16c0-7 7-11 13-7-3 4-4 8-3 12-2-1-6-2-10-5Z" fill="#4eb85f"/><path d="M32 20c-2 0-5 1-6 4 2 1 4 2 6 2 2 0 4-1 6-2-1-3-4-4-6-4Z" fill="#f7c4a6" opacity="0.85"/><path d="M24 39c3 4 7 6 10 6s8-2 10-6" stroke="#b62d32" stroke-width="2.5" stroke-linecap="round"/></svg>
-    </span>
-    <span id="apple-count" class="res-value">0</span>
-  </div>
+  <div id="ping-display" style="display:none;">🌐 --ms</div>
+  <div id="fps-display" onclick="document.getElementById('perf-panel').style.display=document.getElementById('perf-panel').style.display==='none'?'block':'none'">⚡ -- FPS</div>
+  <div id="perf-panel" style="display:none;position:fixed;top:98px;left:10px;z-index:901;background:rgba(0,0,0,0.88);border:1.5px solid rgba(255,255,255,0.18);border-radius:10px;padding:10px 13px;font-size:11px;font-family:monospace;color:#ddd;pointer-events:none;width:260px;line-height:1.65;box-shadow:0 4px 18px rgba(0,0,0,0.7);"></div>
 </div>
 
 <!-- TOP BAR: buttons (top-right) -->
