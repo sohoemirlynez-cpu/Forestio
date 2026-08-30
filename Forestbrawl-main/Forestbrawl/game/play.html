@@ -13763,6 +13763,11 @@ function initMultiplayer() {
     // applying its delayed echo here makes high-latency players rubber-band.
     // Gold from server if more authoritative (server manages windmill/pickup income)
     if (typeof s.g === 'number' && s.g > player.gold) player.gold = s.g;
+    // Resources from server
+    if (typeof s.wood === 'number') player.wood = s.wood;
+    if (typeof s.stone === 'number') player.stone = s.stone;
+    if (typeof s.apples === 'number') player.apples = s.apples;
+    updateUI();
   });
 
   // Helper: Starve.io-style leaderboard row renderer
