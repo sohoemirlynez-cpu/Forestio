@@ -5,7 +5,7 @@
 <script>
 // ULTRA-EARLY: Replit badge ve enjekte edilen her şeyi yok et — sayfa yüklenmeden önce
 (function(){
-  var K={gameCanvas:1,minimap:1,'kill-feed':1,'dmg-flash':1,'upgrade-overlay':1,'upg-backdrop':1,'upg-notify-btn':1,'death-overlay':1,'spawn-overlay':1,'top-hud':1,'bottom-hud':1,'joy-left':1,'joy-right':1,'inv-bar':1,'lb-panel':1,'ui-top':1,'ui-bottom':1,'toast':1,'boss-bar':1,'biome-indicator':1,'ping-display':1,'fps-display':1,'res-panel':1,'resource-hud':1,'kill-flash':1,'kill-notif':1,'rage-overlay':1,'event-banner':1,'streak-hud':1,'shield-hud':1,'lvlup-flash':1,'tab-scoreboard':1,'quick-chat-wheel':1,'build-upg-panel':1,'train-btn':1,'train-stop-hud':1,'loading-screen':1,'tutorial-overlay':1,'quest-panel':1,'ach-popup':1,'spectator-hud':1,'invite-hud-btn':1,'event-meteor-banner':1,'trophy-meta-hud':1,'cave-prompt':1,'ach-panel':1,'bp-panel':1,'dash-btn':1,'snap-settings-panel':1,'clan-game-btn':1,'clan-game-panel':1};
+  var K={gameCanvas:1,minimap:1,'kill-feed':1,'dmg-flash':1,'upgrade-overlay':1,'upg-backdrop':1,'upg-notify-btn':1,'death-overlay':1,'spawn-overlay':1,'top-hud':1,'bottom-hud':1,'joy-left':1,'joy-right':1,'inv-bar':1,'lb-panel':1,'ui-top':1,'ui-bottom':1,'toast':1,'boss-bar':1,'biome-indicator':1,'ping-display':1,'fps-display':1,'res-panel':1,'resource-hud':1,'left-stats-stack':1,'kill-flash':1,'kill-notif':1,'rage-overlay':1,'event-banner':1,'streak-hud':1,'shield-hud':1,'lvlup-flash':1,'tab-scoreboard':1,'quick-chat-wheel':1,'build-upg-panel':1,'train-btn':1,'train-stop-hud':1,'loading-screen':1,'tutorial-overlay':1,'quest-panel':1,'ach-popup':1,'spectator-hud':1,'invite-hud-btn':1,'event-meteor-banner':1,'trophy-meta-hud':1,'cave-prompt':1,'ach-panel':1,'bp-panel':1,'dash-btn':1,'snap-settings-panel':1,'clan-game-btn':1,'clan-game-panel':1};
   function n(el){
     if(!el||el.nodeType!==1)return;
     var t=el.tagName;
@@ -80,7 +80,7 @@ body>iframe,body>[id^="replit"],body>[class^="replit"]{
   position:fixed!important;top:0!important;left:0!important;
 }
 /* Nuke any injected divs not in our game keep list */
-body>div:not(#ui-top):not(#ui-bottom):not(#top-hud):not(#bottom-hud):not(#kill-feed):not(#dmg-flash):not(#upgrade-overlay):not(#upg-backdrop):not(#upg-notify-btn):not(#death-overlay):not(#spawn-overlay):not(#lb-panel):not(#inv-bar):not(#joy-left):not(#joy-right):not(#minimap):not(#toast):not(#biome-indicator):not(#ping-display):not(#fps-display):not(#res-panel):not(#resource-hud):not(#kill-flash):not(#kill-notif):not(#rage-overlay):not(#event-banner):not(#streak-hud):not(#shield-hud):not(#lvlup-flash):not(#tab-scoreboard):not(#quick-chat-wheel):not(#build-upg-panel):not(#train-btn):not(#train-stop-hud):not(#loading-screen):not(#tutorial-overlay):not(#quest-panel):not(#ach-popup):not(#spectator-hud):not(#invite-hud-btn):not(#event-meteor-banner):not(#snap-settings-panel):not(#clan-game-panel):not(#resource-hud){
+body>div:not(#ui-top):not(#ui-bottom):not(#top-hud):not(#bottom-hud):not(#kill-feed):not(#dmg-flash):not(#upgrade-overlay):not(#upg-backdrop):not(#upg-notify-btn):not(#death-overlay):not(#spawn-overlay):not(#lb-panel):not(#inv-bar):not(#joy-left):not(#joy-right):not(#minimap):not(#toast):not(#biome-indicator):not(#ping-display):not(#fps-display):not(#res-panel):not(#resource-hud):not(#left-stats-stack):not(#kill-flash):not(#kill-notif):not(#rage-overlay):not(#event-banner):not(#streak-hud):not(#shield-hud):not(#lvlup-flash):not(#tab-scoreboard):not(#quick-chat-wheel):not(#build-upg-panel):not(#train-btn):not(#train-stop-hud):not(#loading-screen):not(#tutorial-overlay):not(#quest-panel):not(#ach-popup):not(#spectator-hud):not(#invite-hud-btn):not(#event-meteor-banner):not(#snap-settings-panel):not(#clan-game-panel){
   display:none!important;pointer-events:none!important;
   position:fixed!important;top:0!important;left:0!important;
   width:0!important;height:0!important;max-width:0!important;max-height:0!important;
@@ -117,35 +117,67 @@ body>iframe[style]{
 }
 
 #left-stats-stack{
-  position:fixed;top:10px;left:10px;z-index:130;display:flex;flex-direction:column;align-items:flex-start;gap:8px;pointer-events:none;
+  position:fixed;top:10px;left:10px;z-index:150;
+  display:flex !important;flex-direction:row !important;align-items:center !important;gap:7px !important;
+  pointer-events:auto !important;
 }
 #resource-hud{
-  position:relative;display:flex !important;align-items:center;justify-content:flex-start;gap:8px;padding:8px 12px;border-radius:16px;background:rgba(8,13,18,0.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);box-shadow:0 8px 24px rgba(0,0,0,0.35);visibility:visible !important;opacity:1 !important;width:auto !important;height:auto !important;max-width:calc(100vw - 26px) !important;pointer-events:auto !important;overflow:visible !important;clip-path:none !important;flex-wrap:nowrap;
+  position:relative;display:flex !important;flex-direction:row !important;align-items:center;justify-content:flex-start;gap:6px;padding:5px 8px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(10,16,24,0.85) 0%,rgba(18,26,38,0.85) 100%);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,0.14);
+  box-shadow:0 8px 24px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.1);
+  visibility:visible !important;opacity:1 !important;width:auto !important;height:auto !important;
+  pointer-events:auto !important;overflow:visible !important;clip-path:none !important;flex-wrap:nowrap;
 }
 #resource-hud, #resource-hud *, .res-item, .res-icon, .res-value {
-  display:flex !important; visibility:visible !important; opacity:1 !important; overflow:visible !important; clip-path:none !important; pointer-events:auto !important;
+  visibility:visible !important; opacity:1 !important; overflow:visible !important; clip-path:none !important; pointer-events:auto !important;
 }
 .res-item{
-  display:flex;align-items:center;gap:6px;background:linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.09);padding:6px 10px;border-radius:12px;min-width:82px;justify-content:center;box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);
+  display:flex;align-items:center;gap:6px;
+  background:linear-gradient(180deg,rgba(255,255,255,0.06) 0%,rgba(255,255,255,0.02) 100%);
+  border:1px solid rgba(255,255,255,0.09);
+  padding:4px 9px;border-radius:9px;min-width:62px;justify-content:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.06), 0 2px 6px rgba(0,0,0,0.3);
+  transition:transform 0.1s ease, border-color 0.15s ease;
 }
-.res-item.wood .res-icon{filter:drop-shadow(0 0 8px rgba(97,221,110,0.55));}
-.res-item.stone .res-icon{filter:drop-shadow(0 0 8px rgba(176,196,214,0.55));}
-.res-item.gold .res-icon{filter:drop-shadow(0 0 8px rgba(255,214,82,0.55));}
-.res-item.apple .res-icon{filter:drop-shadow(0 0 8px rgba(255,123,123,0.55));}
-.res-icon{font-size:16px;display:flex;align-items:center;justify-content:center;}
-.res-icon img, .res-icon svg{display:block;width:18px;height:18px;object-fit:contain;overflow:visible;}
-.res-value{font-size:12px;font-weight:900;letter-spacing:0.5px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.7);}
+.res-item:hover{
+  border-color:rgba(255,255,255,0.22);
+  transform:translateY(-1px);
+}
+.res-item.wood{border-left:2.5px solid #48bb78;}
+.res-item.stone{border-left:2.5px solid #a0aec0;}
+.res-item.gold{border-left:2.5px solid #ecc94b;}
+.res-item.apple{border-left:2.5px solid #f56565;}
+.res-item.wood .res-icon{filter:drop-shadow(0 0 6px rgba(72,187,120,0.7));}
+.res-item.stone .res-icon{filter:drop-shadow(0 0 6px rgba(160,174,192,0.7));}
+.res-item.gold .res-icon{filter:drop-shadow(0 0 6px rgba(236,201,75,0.7));}
+.res-item.apple .res-icon{filter:drop-shadow(0 0 6px rgba(245,101,101,0.7));}
+.res-icon{font-size:16px;display:flex;align-items:center;justify-content:center;line-height:1;user-select:none;width:22px;height:22px;}
+.res-icon img, .res-icon svg{display:block;width:22px;height:22px;object-fit:contain;overflow:visible;filter:drop-shadow(0 2px 5px rgba(0,0,0,0.6));}
+.res-value{font-size:13px;font-weight:900;letter-spacing:0.4px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.9);font-family:system-ui,-apple-system,sans-serif;}
 #fps-display, #ping-display{
-  position:relative;top:auto;left:auto;transform:none;display:inline-flex!important;align-items:center;justify-content:center;min-width:76px;min-height:28px;background:rgba(0,0,0,0.72);border:1.5px solid rgba(255,255,255,0.22);border-radius:8px;padding:5px 10px;font-size:12px;font-weight:900;color:#44ff88;font-family:monospace;cursor:pointer;letter-spacing:0.4px;text-shadow:0 1px 3px #000;pointer-events:auto;
+  position:relative;top:auto;left:auto;transform:none;display:inline-flex !important;align-items:center;justify-content:center;height:34px;
+  background:linear-gradient(135deg,rgba(10,16,24,0.85) 0%,rgba(18,26,38,0.85) 100%);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,0.14);
+  box-shadow:0 8px 24px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.1);
+  border-radius:10px;padding:4px 10px;font-size:12px;font-weight:900;color:#48bb78;font-family:monospace;cursor:pointer;letter-spacing:0.4px;text-shadow:0 1px 3px #000;pointer-events:auto !important;white-space:nowrap;
+  transition:transform 0.1s ease, border-color 0.15s ease;
 }
-#ping-display{color:#aaffaa;}
+#fps-display:hover, #ping-display:hover{
+  border-color:rgba(255,255,255,0.25);
+  transform:translateY(-1px);
+}
+#ping-display{color:#63b3ed;}
 @media (max-width: 760px) and (orientation: portrait), (max-width: 900px) and (orientation: landscape){
-  #left-stats-stack{top:8px;left:8px;gap:6px;}
-  #resource-hud{gap:6px;padding:5px 7px;max-width:calc(100vw - 18px) !important;}
-  .res-item{min-width:68px;padding:5px 7px;border-radius:10px;}
-  .res-icon img, .res-icon svg{width:16px;height:16px;}
+  #left-stats-stack{top:8px;left:8px;gap:4px;}
+  #resource-hud{gap:4px;padding:4px 6px;}
+  .res-item{min-width:54px;padding:3px 6px;border-radius:8px;}
+  .res-icon img, .res-icon svg{width:14px;height:14px;}
+  .res-icon{font-size:13px;}
   .res-value{font-size:11px;}
-  #fps-display, #ping-display{font-size:11px;min-width:72px;padding:4px 8px;}
+  #fps-display, #ping-display{font-size:10px;height:28px;padding:3px 6px;border-radius:8px;}
 }
 
 /* ===== RESOURCES PANEL — top-left horizontal bar (moomoo.io style) ===== */
@@ -681,32 +713,32 @@ body>iframe[style]{
   animation:deathIn 0.4s ease-out;
 }
 .clan-game-btn{
-  display:flex!important;align-items:center;justify-content:center;gap:6px;
-  position:fixed;top:46px;right:10px;z-index:1001;
-  width:176px;height:32px;
-  border:1px solid rgba(255,215,80,0.45);border-radius:8px;
+  display:inline-flex !important;align-items:center;justify-content:center;gap:5px;
+  position:static !important;
+  height:32px;padding:0 12px;
+  border:1.5px solid rgba(255,215,80,0.45);border-radius:8px;
   background:linear-gradient(135deg,rgba(30,22,12,0.92) 0%,rgba(65,45,12,0.92) 100%);
-  color:#ffd700;padding:4px 10px;font-weight:900;font-size:11px;
+  color:#ffd700;font-weight:900;font-size:11px;
   letter-spacing:.4px;text-shadow:0 1px 2px rgba(0,0,0,0.8);
-  box-shadow:0 4px 18px rgba(0,0,0,0.65),inset 0 1px 0 rgba(255,255,255,0.15);
-  cursor:pointer;pointer-events:auto!important;visibility:visible!important;opacity:1!important;
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  transition:all 0.15s ease;
+  box-shadow:0 4px 14px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.15);
+  cursor:pointer;pointer-events:auto !important;visibility:visible !important;opacity:1 !important;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:all 0.15s ease;white-space:nowrap;
 }
 .clan-game-btn:hover{
   background:linear-gradient(135deg,rgba(48,36,18,0.96) 0%,rgba(95,68,18,0.96) 100%);
-  border-color:rgba(255,215,80,0.75);transform:translateY(-1px);
-  box-shadow:0 6px 22px rgba(0,0,0,0.7),0 0 10px rgba(255,215,80,0.35);
+  border-color:rgba(255,215,80,0.85);transform:translateY(-1px);
+  box-shadow:0 4px 16px rgba(255,215,80,0.35);
 }
 .clan-game-btn:active{transform:translateY(1px);}
 .clan-game-panel{
-  display:none;position:fixed;top:84px;right:10px;z-index:1000;
+  display:none;position:fixed;top:50px;right:10px;z-index:1100;
   width:min(320px,calc(100vw - 20px));padding:14px 16px;
-  border:1px solid rgba(255,215,80,0.45);border-radius:12px;
+  border:1.5px solid rgba(255,215,80,0.45);border-radius:12px;
   background:rgba(12,16,22,0.96);color:#fff;
   box-shadow:0 16px 48px rgba(0,0,0,0.85),inset 0 1px 0 rgba(255,255,255,0.1);
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  animation:snapPanelIn 0.15s ease;pointer-events:auto!important;
+  animation:snapPanelIn 0.15s ease;pointer-events:auto !important;
 }
 .clan-game-panel.show{display:block;}
 .clan-game-panel input{
@@ -1377,7 +1409,6 @@ function drawSkinEyesOverlay(c, R, sk, fl) {
 </script>
 </head>
 <body>
-<button id="clan-game-btn" class="clan-game-btn" type="button" aria-label="Klan panelini aç">🛡️ Klan</button>
 <section id="clan-game-panel" class="clan-game-panel" aria-label="Klan yönetimi">
   <button id="clan-game-close" type="button" style="float:right;background:#ffffff18;color:#fff">✕</button>
   <h3 style="margin:0 0 10px">🛡️ Klan</h3>
@@ -1407,33 +1438,34 @@ function drawSkinEyesOverlay(c, R, sk, fl) {
 
 <div id="left-stats-stack">
   <div id="resource-hud" aria-label="Kaynak durumu">
-    <div class="res-item wood">
-      <span class="res-icon" aria-hidden="true"><img src="asset/tree-forest.png" alt="Odun" /></span>
+    <div class="res-item wood" title="Odun">
+      <span class="res-icon" aria-hidden="true"><img src="asset/tree-forest.png" alt="Odun" onerror="this.outerHTML='🌲'" /></span>
       <span id="wood-count" class="res-value">0</span>
     </div>
-    <div class="res-item stone">
-      <span class="res-icon" aria-hidden="true"><img src="asset/rock-forest.png" alt="Taş" /></span>
+    <div class="res-item stone" title="Taş">
+      <span class="res-icon" aria-hidden="true"><img src="asset/rock-forest.png" alt="Taş" onerror="this.outerHTML='🪨'" /></span>
       <span id="stone-count" class="res-value">0</span>
     </div>
-    <div class="res-item gold">
-      <span class="res-icon" aria-hidden="true"><img src="asset/gold.png" alt="Altın" /></span>
+    <div class="res-item gold" title="Altın">
+      <span class="res-icon" aria-hidden="true"><img src="asset/gold.png" alt="Altın" onerror="this.outerHTML='🪙'" /></span>
       <span id="gold-count" class="res-value">0</span>
     </div>
-    <div class="res-item apple">
-      <span class="res-icon" aria-hidden="true"><img src="asset/apple.png" alt="Elma" /></span>
-      <span id="apple-count" class="res-value">0</span>
+    <div class="res-item apple" title="Elma">
+      <span class="res-icon" aria-hidden="true"><img src="asset/apple.png" alt="Elma" onerror="this.outerHTML='🍎'" /></span>
+      <span id="apple-count" class="res-value">5</span>
     </div>
   </div>
 
-  <div id="ping-display" style="display:none;">🌐 --ms</div>
-  <div id="fps-display" onclick="document.getElementById('perf-panel').style.display=document.getElementById('perf-panel').style.display==='none'?'block':'none'">⚡ -- FPS</div>
-  <div id="perf-panel" style="display:none;position:fixed;top:98px;left:10px;z-index:901;background:rgba(0,0,0,0.88);border:1.5px solid rgba(255,255,255,0.18);border-radius:10px;padding:10px 13px;font-size:11px;font-family:monospace;color:#ddd;pointer-events:none;width:260px;line-height:1.65;box-shadow:0 4px 18px rgba(0,0,0,0.7);"></div>
+  <div id="fps-display" onclick="document.getElementById('perf-panel').style.display=document.getElementById('perf-panel').style.display==='none'?'block':'none'" title="FPS (Detaylar için tıkla)">⚡ 60 FPS</div>
+  <div id="ping-display" title="Gecikme (Ping / MS)">🌐 12ms</div>
+  <div id="perf-panel" style="display:none;position:fixed;top:54px;left:10px;z-index:901;background:rgba(0,0,0,0.88);border:1.5px solid rgba(255,255,255,0.18);border-radius:10px;padding:10px 13px;font-size:11px;font-family:monospace;color:#ddd;pointer-events:none;width:260px;line-height:1.65;box-shadow:0 4px 18px rgba(0,0,0,0.7);"></div>
 </div>
 
 <!-- TOP BAR: buttons (top-right) -->
 <div id="ui-top">
   <div style="flex:1;"></div>
-  <div style="display:flex;gap:6px;pointer-events:auto;">
+  <div style="display:flex;gap:6px;pointer-events:auto;align-items:center;">
+    <button id="clan-game-btn" class="clan-game-btn" type="button" aria-label="Klan panelini aç" title="Klan Yönetimi">🛡️ Klan</button>
     <button id="quest-btn" onclick="if(window._toggleQuests)window._toggleQuests(event)" title="Günlük Görevler" style="position:relative;">📋<span id="quest-badge" style="position:absolute;top:-4px;right:-5px;background:#22cc66;color:#fff;font-size:8px;font-weight:900;border-radius:99px;padding:1px 4px;line-height:1.5;min-width:14px;text-align:center;pointer-events:none;white-space:nowrap;">0/3</span></button>
     <button type="button" id="settings-btn" title="Ayarlar">⚙️</button>
     <button id="fs-btn" onclick="tryFullscreen()" title="Tam Ekran">⛶</button>
@@ -1998,9 +2030,12 @@ function _loadSprite(name, category) {
 }
 function _preloadStaticSprites() {
   const resources = [
-    'asset/tree-forest.png','asset/tree-snow.png','asset/tree-desert.png','asset/tree-darkforest.png',
-    'asset/rock-forest.png','asset/rock-snow.png','asset/rock-desert.png','asset/rock-darkforest.png','asset/rock.png',
-    'asset/gold.png','asset/apple.png','asset/bush.png','asset/mushroom.png','asset/crystal.png','asset/hive.png'
+    'asset/tree-forest.png', 'asset/rock-forest.png',
+    'resourceasset/desertwood.png', 'resourceasset/desertstone.png',
+    'resourceasset/winterwood.png', 'resourceasset/winterstone.png',
+    'asset/tree-snow.png', 'asset/tree-desert.png', 'asset/tree-darkforest.png',
+    'asset/rock-snow.png', 'asset/rock-desert.png', 'asset/rock-darkforest.png', 'asset/rock.png',
+    'asset/gold.png', 'asset/apple.png', 'asset/bush.png', 'asset/mushroom.png', 'asset/crystal.png', 'asset/hive.png'
   ];
   for (const name of resources) _loadSprite(name, 'resource');
   for (const kind of ['axe', 'sword']) {
@@ -2029,17 +2064,30 @@ function _playerSprite(skin) {
   return entry && entry.ready ? entry.image : null;
 }
 function _resourceSprite(type, biome) {
+  const normBiome = (biome === 'snow' || biome === 'winter') ? 'winter' : (biome === 'desert' ? 'desert' : (biome === 'lava' || biome === 'darkforest' ? 'lava' : 'forest'));
   let name;
-  const assetBiome = biome === 'winter' ? 'snow' : biome === 'lava' ? 'darkforest' : (biome || 'forest');
-  if (type === 'wood') name = `asset/tree-${assetBiome}.png`;
-  else if (type === 'apple') name = 'asset/apple.png';
-  else if (type === 'stone') name = `asset/rock-${assetBiome}.png`;
-  else name = `asset/${type}.png`;
+  if (type === 'wood') {
+    if (normBiome === 'winter') name = 'resourceasset/winterwood.png';
+    else if (normBiome === 'desert') name = 'resourceasset/desertwood.png';
+    else if (normBiome === 'lava') name = 'asset/tree-darkforest.png';
+    else name = 'asset/tree-forest.png';
+  } else if (type === 'stone') {
+    if (normBiome === 'winter') name = 'resourceasset/winterstone.png';
+    else if (normBiome === 'desert') name = 'resourceasset/desertstone.png';
+    else if (normBiome === 'lava') name = 'asset/rock-darkforest.png';
+    else name = 'asset/rock-forest.png';
+  } else if (type === 'apple') {
+    name = 'asset/apple.png';
+  } else if (type === 'gold') {
+    name = 'asset/gold.png';
+  } else {
+    name = `asset/${type}.png`;
+  }
   let entry = _RESOURCE_SPRITES.get(name);
   if (!entry) entry = _loadSprite(name, 'resource');
   if (entry && entry.ready) return entry.image;
   if (type === 'stone') {
-    const fallback = _RESOURCE_SPRITES.get('asset/rock.png');
+    const fallback = _RESOURCE_SPRITES.get('asset/rock-forest.png') || _RESOURCE_SPRITES.get('asset/rock.png');
     if (fallback && fallback.ready) return fallback.image;
   }
   if (type === 'wood') {
@@ -3529,12 +3577,12 @@ let buildings = [];
 // buildings dizisiyle DAIMA senkronize tutulur (push→set, splice→delete)
 const _buildingsMap = new Map(); // _netId → bina nesnesi
 
-// Çarpışma konfigürasyonu — module seviyesinde sabit (her frame yeniden oluşturulmaydı)
-const _RES_COL_FRAC = { wood:0.22, stone:0.80, gold:0.78, apple:0.62, bush:0.58, mushroom:0.55, crystal:0.58, hive:0.56 };
-const _BLD_RADII    = {3:34, 4:44, 6:20, 7:32, 8:24, 9:52};
+// Çarpışma konfigürasyonu — hiçbir kaynağın içinden geçilmez
+const _RES_COL_FRAC = { wood: 0.65, stone: 0.82, gold: 0.80, apple: 0.65, bush: 0.60, mushroom: 0.55, crystal: 0.60, hive: 0.58 };
+const _BLD_RADII    = {3:34, 4:44, 7:32, 8:24, 9:52};
 const _P_COL_R      = 370; // oyuncu + en büyük kaynak yarıçapı + güvenlik payı
 // checkHits içinde kullanılan sabit — her çağrıda yeniden oluşturulmamalı
-const _RES_HIT_FRAC = { wood:0.68, stone:0.70, gold:0.70, apple:0.70, bush:0.68, mushroom:0.65, crystal:0.68, hive:0.66 };
+const _RES_HIT_FRAC = { wood: 0.85, stone: 0.85, gold: 0.85, apple: 0.85, bush: 0.75, mushroom: 0.70, crystal: 0.75, hive: 0.75 };
 // Sıfır-GC katı cisim havuzu: obje oluşturmak yerine alanları güncelleriz
 const _SOLID_POOL = Array.from({length: 128}, () => ({x:0, y:0, rad:0}));
 let _solidCount = 0;
@@ -4073,11 +4121,12 @@ const ENEMY_TYPES = [
 ];
 
 const ACTIVE_ENEMY_TYPES = [
-  { name:'Örümcek', biome:'forest', shape:'spider', radius:46, hp:108, maxHp:108, color:'#181028', outline:'#080410', dmg:26, speed:0.60, xp:45, gold:10, eyes:'#ff3300' },
-  { name:'Kurt', biome:'forest', shape:'wolf', radius:38, hp:88, maxHp:88, color:'#6b4932', outline:'#28170d', dmg:22, speed:0.84, xp:37, gold:8, eyes:'#ffcc66' },
-  { name:'Fil', biome:'forest', shape:'elephant', radius:68, hp:330, maxHp:330, color:'#71808a', outline:'#26323a', dmg:38, speed:0.30, xp:110, gold:24, eyes:'#d9f3ff', typeName:'🐘' },
+  { name:'Kurt', biome:'forest', shape:'wolf', radius:38, hp:90, maxHp:90, color:'#6b4932', outline:'#28170d', dmg:20, speed:0.84, xp:35, gold:15, eyes:'#ffcc66', typeName:'🐺 Kurt' },
+  { name:'Akrep', biome:'forest', shape:'scorpion', radius:42, hp:130, maxHp:130, color:'#4a2818', outline:'#1a0d06', dmg:28, speed:0.65, xp:45, gold:20, eyes:'#ff4400', typeName:'🦂 Akrep' },
+  { name:'Ayı', biome:'forest', shape:'bear', radius:50, hp:260, maxHp:260, color:'#4a2f1b', outline:'#1a1008', dmg:38, speed:0.55, xp:75, gold:35, eyes:'#ffaa00', typeName:'🐻 Ayı' },
+  { name:'Örümcek', biome:'forest', shape:'spider', radius:40, hp:110, maxHp:110, color:'#2a1a38', outline:'#0f0814', dmg:24, speed:0.75, xp:40, gold:18, eyes:'#ff1100', typeName:'🕷️ Örümcek' },
 ];
-const ACTIVE_MOB_SHAPES = new Set(['spider', 'wolf', 'elephant']);
+const ACTIVE_MOB_SHAPES = new Set(['wolf', 'kurt', 'scorpion', 'akrep', 'bear', 'ayi', 'spider', 'orumcek', 'örümcek']);
 function isActiveMobShape(shape) {
   return ACTIVE_MOB_SHAPES.has(shape);
 }
@@ -4652,34 +4701,26 @@ const RES_DEFS_BY_BIOME = {
     { type:'crystal',  w:4,  radius:85,  hp:300,  yW:0,  yS:0,  yG:0, yA:0, yXp:55 },
     { type:'hive',     w:3,  radius:75,  hp:260,  yW:0,  yS:0,  yG:6, yA:0, ySpd:180 },
   ],
-  snow: [
-    { type:'wood',  w:25, radius:167, hp:500,  yW:9,  yS:0, yG:0, yA:0.20 },
-    { type:'wood',  w:12, radius:207, hp:680,  yW:14, yS:0, yG:0, yA:0.14 },
-    { type:'stone', w:22, radius:123, hp:750,  yW:0,  yS:12, yG:0, yA:0 },
-    { type:'stone', w:10, radius:153, hp:1050, yW:0,  yS:20, yG:0, yA:0 },
+  winter: [
+    { type:'wood',  w:26, radius:167, hp:500,  yW:9,  yS:0, yG:0, yA:0.20 },
+    { type:'wood',  w:13, radius:207, hp:680,  yW:14, yS:0, yG:0, yA:0.14 },
+    { type:'stone', w:24, radius:123, hp:750,  yW:0,  yS:12, yG:0, yA:0 },
+    { type:'stone', w:12, radius:153, hp:1050, yW:0,  yS:20, yG:0, yA:0 },
     { type:'gold',  w:6,  radius:118, hp:540,  yW:0,  yS:3,  yG:11, yA:0 },
     { type:'gold',  w:3,  radius:143, hp:740,  yW:0,  yS:4,  yG:18, yA:0 },
+    { type:'crystal', w:5, radius:85, hp:300,  yW:0,  yS:0,  yG:0, yA:0, yXp:55 },
     { type:'bush',  w:8,  radius:78,  hp:220,  yW:2,  yS:0,  yG:0, yA:0.5 },
   ],
   desert: [
-    { type:'wood',  w:15, radius:161, hp:460,  yW:7,  yS:0, yG:0, yA:0.14 },
-    { type:'wood',  w:8,  radius:199, hp:640,  yW:12, yS:0, yG:0, yA:0.09 },
+    { type:'wood',  w:16, radius:161, hp:460,  yW:7,  yS:0, yG:0, yA:0.14 },
+    { type:'wood',  w:9,  radius:199, hp:640,  yW:12, yS:0, yG:0, yA:0.09 },
     { type:'stone', w:28, radius:125, hp:700,  yW:0,  yS:12, yG:0, yA:0 },
     { type:'stone', w:14, radius:155, hp:1000, yW:0,  yS:20, yG:0, yA:0 },
     { type:'gold',  w:8,  radius:123, hp:520,  yW:0,  yS:3,  yG:12, yA:0 },
     { type:'gold',  w:4,  radius:145, hp:720,  yW:0,  yS:4,  yG:19, yA:0 },
     { type:'bush',  w:10, radius:75,  hp:200,  yW:2,  yS:0,  yG:0, yA:0.35 },
   ],
-  swamp: [
-    { type:'wood',  w:22, radius:173, hp:520,  yW:9,  yS:0, yG:0, yA:0.24 },
-    { type:'wood',  w:12, radius:213, hp:730,  yW:16, yS:0, yG:0, yA:0.18 },
-    { type:'stone', w:18, radius:118, hp:600,  yW:0,  yS:9,  yG:0, yA:0 },
-    { type:'stone', w:9,  radius:148, hp:880,  yW:0,  yS:16, yG:0, yA:0 },
-    { type:'gold',  w:7,  radius:115, hp:490,  yW:0,  yS:3,  yG:11, yA:0 },
-    { type:'gold',  w:4,  radius:140, hp:680,  yW:0,  yS:4,  yG:18, yA:0 },
-    { type:'bush',  w:18, radius:88,  hp:280,  yW:4,  yS:0,  yG:0, yA:1.0 },
-  ],
-  darkforest: [
+  lava: [
     { type:'wood',  w:28, radius:184, hp:600,  yW:12, yS:0, yG:0, yA:0.18 },
     { type:'wood',  w:14, radius:224, hp:840,  yW:20, yS:0, yG:0, yA:0.12 },
     { type:'stone', w:20, radius:123, hp:800,  yW:0,  yS:14, yG:0, yA:0 },
@@ -4689,9 +4730,14 @@ const RES_DEFS_BY_BIOME = {
     { type:'bush',  w:12, radius:85,  hp:250,  yW:4,  yS:0,  yG:0, yA:0.7 },
   ],
 };
+RES_DEFS_BY_BIOME.snow = RES_DEFS_BY_BIOME.winter;
+RES_DEFS_BY_BIOME.swamp = RES_DEFS_BY_BIOME.lava;
+RES_DEFS_BY_BIOME.darkforest = RES_DEFS_BY_BIOME.lava;
+
 function pickResDef(biome, rng) {
   const _r = rng || (() => Math.random());
-  const defs = RES_DEFS_BY_BIOME[biome] || RES_DEFS_BY_BIOME.forest;
+  const normBiome = (biome === 'snow' || biome === 'winter') ? 'winter' : (biome === 'desert' ? 'desert' : (biome === 'lava' || biome === 'darkforest' ? 'lava' : 'forest'));
+  const defs = RES_DEFS_BY_BIOME[normBiome] || RES_DEFS_BY_BIOME[biome] || RES_DEFS_BY_BIOME.forest;
   const total = defs.reduce((s,d)=>s+d.w, 0);
   let r = _r() * total;
   for (const d of defs) { r -= d.w; if (r <= 0) return d; }
@@ -4897,7 +4943,7 @@ function _onFpsToggle(checked) {
 
 function _initGameSettingsUI() {
   const minimapVisible = localStorage.getItem('fb_minimap') !== 'false';
-  const fpsVisible = localStorage.getItem('fb_fps') === 'true';
+  const fpsVisible = localStorage.getItem('fb_fps') !== 'false';
   const values = {
     'auto-eat-toggle': _autoEatEnabled,
     'shake-toggle': _shakeEnabled,
@@ -5302,7 +5348,7 @@ const UPGRADE_SCORE = [400, 1000, 2500, 6000, 15000]; // puan maliyeti (her tier
 const TIER_HP_MULS  = [1.0, 1.6, 2.5, 4.0, 6.5, 10.0];
 const TIER_DMG_MULS = [1.0, 1.5, 2.2, 3.5, 5.0, 8.0];
 const BTYPE_NAMES   = {3:'Kazık',4:'Değirmen',5:'Hız Pedi',6:'Tuzak',7:'Taret',8:'Duvar',9:'Kale',10:'Kamp Ateşi'};
-const BTYPE_BASE_HP = {3:150,4:100,5:50,6:80,7:200,8:300,9:400,10:300};
+const BTYPE_BASE_HP = {3:250,4:180,5:100,6:850,7:350,8:500,9:750,10:400};
 
 function _getTier(b) { return Math.min(5, Math.max(0, b.tier || 0)); }
 
@@ -7052,7 +7098,7 @@ const _hpText = document.getElementById('hp-text');
 let _uiAppleEl = null, _uiWoodEl = null, _uiStoneEl = null, _uiGoldEl = null, _uiScoreEl = null;
 // Last-written values — skip DOM write when nothing changed
 let _uiLast = { apples: -1, wood: -1, stone: -1, gold: -1, score: -1 };
-let _lastScoreSync = null;
+let _lastScoreSync = null, _lastWoodSync = null, _lastStoneSync = null, _lastGoldSync = null, _lastAppleSync = null;
 // Cached DOM references for ultra-fast zero-query HUD updates
 let _domWood = null, _domStone = null, _domGold = null, _domApple = null, _domKills = null, _domScore = null;
 let _domHpBar = null, _domHpText = null, _domXpBar = null, _domXpText = null;
@@ -7076,24 +7122,43 @@ function updateUI() {
     _uiGoldEl  = document.getElementById('gold-count');
     _uiScoreEl = document.getElementById('score-count');
   }
-  if (_uiAppleEl && player.apples !== _uiLast.apples) { _uiAppleEl.textContent = player.apples; _uiLast.apples = player.apples; }
-  if (_uiWoodEl  && player.wood   !== _uiLast.wood  ) { _uiWoodEl.textContent  = player.wood;   _uiLast.wood   = player.wood; }
-  if (_uiStoneEl && player.stone  !== _uiLast.stone ) { _uiStoneEl.textContent = player.stone;  _uiLast.stone  = player.stone; }
-  if (_uiGoldEl  && player.gold   !== _uiLast.gold  ) { _uiGoldEl.textContent  = player.gold;   _uiLast.gold   = player.gold; }
-  const _sc = player.score || 0;
-  if (_uiScoreEl && _sc !== _uiLast.score) {
-    _uiScoreEl.textContent = formatScore(_sc);
-    _uiLast.score = _sc;
+  const curA = String(player.apples ?? 0);
+  const curW = String(player.wood ?? 0);
+  const curS = String(player.stone ?? 0);
+  const curG = String(player.gold ?? 0);
+  const curSc = player.score ?? 0;
+
+  if (_uiAppleEl && _uiAppleEl.textContent !== curA) _uiAppleEl.textContent = curA;
+  if (_uiWoodEl  && _uiWoodEl.textContent  !== curW) _uiWoodEl.textContent  = curW;
+  if (_uiStoneEl && _uiStoneEl.textContent !== curS) _uiStoneEl.textContent = curS;
+  if (_uiGoldEl  && _uiGoldEl.textContent  !== curG) _uiGoldEl.textContent  = curG;
+  if (_uiScoreEl && curSc !== _uiLast.score) {
+    _uiScoreEl.textContent = formatScore(curSc);
+    _uiLast.score = curSc;
   }
-  if (_connected && _socket && _lastScoreSync !== _sc) {
-    _lastScoreSync = _sc;
-    _socket.emit('state', {
-      sc: _sc,
-      gold: player.gold || 0,
-      xp: player.xp || 0,
-      kills: player.kills || 0,
-      rankId: Math.min(typeof _myRankId !== 'undefined' ? _myRankId : 0, 11),
-    });
+  if (_connected && _socket) {
+    const needSync = _lastScoreSync !== curSc ||
+                     _lastWoodSync !== player.wood ||
+                     _lastStoneSync !== player.stone ||
+                     _lastGoldSync !== player.gold ||
+                     _lastAppleSync !== player.apples;
+    if (needSync) {
+      _lastScoreSync = curSc;
+      _lastWoodSync = player.wood;
+      _lastStoneSync = player.stone;
+      _lastGoldSync = player.gold;
+      _lastAppleSync = player.apples;
+      _socket.emit('state', {
+        sc: curSc,
+        gold: player.gold || 0,
+        wood: player.wood || 0,
+        stone: player.stone || 0,
+        apples: player.apples || 0,
+        xp: player.xp || 0,
+        kills: player.kills || 0,
+        rankId: Math.min(typeof _myRankId !== 'undefined' ? _myRankId : 0, 11),
+      });
+    }
   }
 
   // Update building count limit badges in hotbar (slots 3-9) with dirty check
@@ -7106,13 +7171,13 @@ function updateUI() {
     }
   }
   for (let _bType = 3; _bType <= 9; _bType++) {
-    const _badgeEl = _bldBadgeEls[_bType];
+    const _badgeEl = _bldBadgeEls[_bType] || document.getElementById('bld-cnt-' + _bType);
     if (_badgeEl) {
       const _lim = BUILD_LIMITS[_bType] || 25;
       const _cnt = getPlayerBuildingCount(_bType);
-      if (_cnt !== _bldLastCounts[_bType]) {
-        _bldLastCounts[_bType] = _cnt;
-        _badgeEl.textContent = _cnt + '/' + _lim;
+      const _txt = _cnt + '/' + _lim;
+      if (_badgeEl.textContent !== _txt) {
+        _badgeEl.textContent = _txt;
         if (_cnt >= _lim) _badgeEl.classList.add('at-limit');
         else _badgeEl.classList.remove('at-limit');
       }
@@ -7277,10 +7342,12 @@ function _flushXP() {
 // ============================================================
 // DEATH
 // ============================================================
-function _fmtTime(frames){
-  const secs=Math.floor(frames/60);
-  const m=Math.floor(secs/60), s=secs%60;
-  return m>0?`${m}d ${s}s`:`${s}s`;
+let _survivalStartTime = Date.now();
+
+function _fmtTime(secs){
+  const s = Math.max(0, Math.floor(Number(secs) || 0));
+  const m = Math.floor(s / 60), remS = s % 60;
+  return m > 0 ? `${m}d ${remS < 10 ? '0' : ''}${remS}s` : `${remS}s`;
 }
 // ── Score submission to leaderboard ──────────────────────────────────────────
 // Works for both guests (localStorage guestId) and logged-in users (token).
@@ -7311,6 +7378,20 @@ function die() {
   _trapCaughtBy = null; // free from any trap on death
   _playerMoveTrail = []; // clear movement trail on death
   if (typeof bossTelegraphs !== 'undefined') bossTelegraphs.length = 0; // clear stale boss skill telegraphs on death
+
+  // Clear own buildings on death so limits and map are immediately clean
+  for (let _bi = buildings.length - 1; _bi >= 0; _bi--) {
+    const _bRem = buildings[_bi];
+    if (!_bRem._remote || (_mySocketId && _bRem._ownerId === _mySocketId)) {
+      if (_bRem._netId) _buildingsMap.delete(_bRem._netId);
+      if (_bRem.type === 10) { const _ci = _campfires.indexOf(_bRem); if (_ci >= 0) _campfires.splice(_ci, 1); }
+      buildings.splice(_bi, 1);
+    }
+  }
+  if (typeof _socket !== 'undefined' && _socket && _connected) {
+    _socket.emit('player_dead', { id: _mySocketId });
+  }
+
   // Invalidate UI caches so bars redraw correctly after respawn
   _hpLast = { hp: -1, maxHp: -1, band: -1 };
   _uiLast = { apples: -1, wood: -1, stone: -1, gold: -1, score: -1 };
@@ -7360,7 +7441,7 @@ function die() {
   })();
   // ── Meta-progression die hook ──────────────────────────────────────
   const _dieKills    = player.kills;
-  const _dieTimeSec  = Math.floor(globalTime / 60);
+  const _dieTimeSec  = Math.max(0, Math.floor((Date.now() - _survivalStartTime) / 1000));
   const _dieScore    = score;
   if (typeof window._metaOnDie === 'function')
     setTimeout(function(){ window._metaOnDie(_dieKills, _dieTimeSec, _dieScore); }, 200);
@@ -7551,11 +7632,12 @@ function respawn() {
   player.armorBonus = 0; player.atkSpdBonus = 1; player.regenBonus = 1;
   player.vampire = false; player._wideSwing = false;
   player.weapon = 1; player.isAttacking = false; player.attackTimer = 0;
+  _survivalStartTime = Date.now();
   // Only clear OWN buildings — remote buildings from other players must survive respawn.
   // The server will send a buildings_sync event with the current full state.
   for (let _bi = buildings.length - 1; _bi >= 0; _bi--) {
     const _bRem = buildings[_bi];
-    if (!_bRem._remote) {
+    if (!_bRem._remote || (_mySocketId && _bRem._ownerId === _mySocketId)) {
       if (_bRem._netId) _buildingsMap.delete(_bRem._netId);
       if (_bRem.type === 10) { const _ci=_campfires.indexOf(_bRem); if(_ci>=0){_campfires[_ci]=_campfires[_campfires.length-1];_campfires.pop();} }
       buildings.splice(_bi, 1);
@@ -7579,17 +7661,18 @@ function respawn() {
   _bowCooldown = 0; _lvlRings.length = 0; _playerLevel = 1; _playerLevelKills = 0;
   document.querySelectorAll('.inv-slot').forEach((s,i)=>s.classList.toggle('active',i===0));
   _respawnGrace = 60; // skip expensive background passes for ~1s to guarantee buttery respawn
-  updateUI(); updateXP(); updateHpBar();
-  // Tell server to respawn — server will echo back 'own_respawn' with the safe position.
-  // For offline/solo mode: set position locally since there's no server to echo back.
+  _isDying = false; // Reset dying guard on respawn so player can immediately act
+  const _rp = randomForestPoint();
+  player.x = _rp.x;
+  player.y = _rp.y;
+  if (canvas.width > 0) {
+    camX = player.x - canvas.width / 2;
+    camY = player.y - canvas.height / 2;
+  }
+  floatingTexts.push({ x: player.x, y: player.y - 80, text: '🛡️ 3 Saniyelik Koruma!', alpha: 1, life: 100, color: '#44ddff', big: true });
+  // Tell server to respawn — server will echo back 'own_respawn' with the authoritative position.
   if (typeof _socket !== 'undefined' && _socket && _connected) {
     _socket.emit('respawn');
-  } else {
-    // Offline: pick position locally and show protection text immediately
-    const _rp = randomForestPoint();
-    player.x = _rp.x;
-    player.y = _rp.y;
-    floatingTexts.push({ x: player.x, y: player.y - 80, text: '🛡️ 3 Saniyelik Koruma!', alpha: 1, life: 100, color: '#44ddff', big: true });
   }
 }
 window.respawn = respawn;
@@ -9782,130 +9865,696 @@ function _drawDrake(ctx,R,col,out,eyeCol,t){
 }
 
 // ── Main shape dispatcher ─────────────────────────────────────
-function drawMobShape(ctx,R,col,out,eyeCol,shape,t,e){
-  switch(shape){
-    case 'boar': case 'thornbeast': _drawBoar(ctx,R,col,out,eyeCol,t); break;
-    case 'pig': _drawBear(ctx,R,col,out,eyeCol,t); break;
-    case 'wolf': case 'snowwolf': case 'arcticwolf': case 'shadowwolf': case 'desertJackal': _drawWolf(ctx,R,col,out,eyeCol,t); break;
-    case 'werewolf': _drawWerewolf(ctx,R,col,out,eyeCol,t); break;
-    case 'bear': case 'rockBear': case 'frostbeast': case 'icemanticore': case 'sphinxCub': _drawBear(ctx,R,col,out,eyeCol,t); break;
-    case 'fox': _drawFox(ctx,R,col,out,eyeCol,t); break;
-    case 'rabbit': case 'squirrel': _drawRabbit(ctx,R,col,out,eyeCol); break;
-    case 'bat': case 'batking': case 'sandwyvern': case 'nightWyvern': case 'mosquito': _drawBat(ctx,R,col,out,eyeCol,t); break;
-    case 'vampire': _drawVampire(ctx,R,col,out,eyeCol,t); break;
-    case 'yeti': _drawYeti(ctx,R,col,out,eyeCol,t); break;
-    case 'spider': case 'armorBeetle': case 'iceSpider': _drawSpider(ctx,R,col,out,eyeCol); break;
-    case 'scorpion': case 'scorpionking': _drawScorpion(ctx,R,col,out,eyeCol,t); break;
-    case 'snake': case 'cobra': case 'naga': case 'vineSnake': _drawSnake(ctx,R,col,out,eyeCol); break;
-    case 'crab': case 'sandcrab': _drawCrab(ctx,R,col,out,eyeCol); break;
-    case 'toad': case 'mudLurker': _drawToad(ctx,R,col,out,eyeCol); break;
-    case 'swampdrake': case 'mossDrake': case 'poisonDrake': _drawDrake(ctx,R,col,out,eyeCol,t); break;
-    case 'croc': case 'giantleech': case 'stonekraken': case 'deepworm': case 'boneLizard': _drawCroc(ctx,R,col,out,eyeCol); break;
-    case 'slime': _drawSlime(ctx,R,col,out,eyeCol,t); break;
-    case 'penguin': case 'circle': _drawPenguin(ctx,R,col,out,eyeCol); break;
-    case 'snowman': case 'kardan': _drawSnowman(ctx,R,col,out,eyeCol); break;
-    case 'skeleton': case 'mummy': case 'lich': _drawSkeleton(ctx,R,col,out,eyeCol); break;
-    case 'ghost': case 'swampGhost': case 'icewraith': case 'swampshaman': case 'demoneye':
-    case 'voidWraith': case 'sandDjinn': case 'souleater': case 'shadowreaper':
-    case 'forestFairy': case 'corruptedFairy': case 'frostShaman': case 'bogWitch': _drawGhost(ctx,R,col,out,eyeCol,t); break;
-    case 'mushroom': case 'poisontree': _drawMushroom(ctx,R,col,out,eyeCol); break;
-    case 'goblin': case 'darkpuppet': _drawGoblin(ctx,R,col,out,eyeCol); break;
-    case 'treant': case 'nightmarent': _drawTreeant(ctx,R,col,out,eyeCol,t); break;
-    case 'bird': case 'vulture': case 'firebird': case 'harpy': case 'phoenix': case 'snowOwl': _drawBird(ctx,R,col,out,eyeCol,t); break;
-    case 'golem': case 'crystalgolem': case 'chimera': case 'icelizard': case 'sandgiant':
-    case 'icetroll': case 'stoneking': case 'sandking': case 'kabus': case 'darkGolem': _drawGolem(ctx,R,col,out,eyeCol); break;
-    case 'minotaur': _drawMinotaur(ctx,R,col,out,eyeCol,t); break;
-    default:
-      _mBody(ctx,R,col,out);
-      _mSnout(ctx,R,col,true);
-      _mEyes(ctx,R,eyeCol||'#ff2200');
-      _mBrows(ctx,R);
-      break;
+function drawMobShape(ctx, R, col, out, eyeCol, shape, t, e) {
+  _mBody(ctx, R, col || '#6b4932', out || '#28170d');
+  _mEyes(ctx, R, eyeCol || '#ffcc66');
+}
+// ============================================================
+// ANIMATED SKELETAL MOB ASSETS & RENDER ENGINE (Wolf, Scorpion, Bear, Spider)
+// ============================================================
+const _MOB_ASSETS = {
+  // Kurt (Wolf)
+  kurt_govde: new Image(),
+  kurt_kafa: new Image(),
+  kurt_kafa_acik: new Image(),
+  kurt_kuyruk: new Image(),
+  kurt_pati: new Image(),
+
+  // Akrep (Scorpion)
+  akrep_govde: new Image(),
+  akrep_kafa: new Image(),
+  akrep_bacak: new Image(),
+  akrep_kuyruk: new Image(),
+  akrep_igne: new Image(),
+  akrep_kol_ust: new Image(),
+  akrep_kol_alt: new Image(),
+  akrep_kiskac_dis: new Image(),
+  akrep_kiskac_ic: new Image(),
+
+  // Ayı (Bear)
+  bear_govde: new Image(),
+  bear_kafa: new Image(),
+  bear_kafa_acik: new Image(),
+  bear_kol: new Image(),
+  bear_pence: new Image(),
+  bear_bacak: new Image(),
+  bear_kuyruk: new Image(),
+  bear_cizik: new Image(),
+
+  // Örümcek (Spider)
+  spider_abdomen: new Image(),
+  spider_kafa: new Image(),
+  spider_bacak: new Image(),
+  spider_pedipalp: new Image(),
+  spider_dis: new Image(),
+  spider_ag_mermi: new Image(),
+  spider_ag_tuzak: new Image()
+};
+
+_MOB_ASSETS.kurt_govde.src = 'mobassets/kurt_govde.png';
+_MOB_ASSETS.kurt_kafa.src = 'mobassets/kurt_kafa.png';
+_MOB_ASSETS.kurt_kafa_acik.src = 'mobassets/kurt_kafa_acik.png';
+_MOB_ASSETS.kurt_kuyruk.src = 'mobassets/kurt_kuyruk.png';
+_MOB_ASSETS.kurt_pati.src = 'mobassets/kurt_pati.png';
+
+_MOB_ASSETS.akrep_govde.src = 'mobassets/akrep_govde.png';
+_MOB_ASSETS.akrep_kafa.src = 'mobassets/akrep_kafa.png';
+_MOB_ASSETS.akrep_bacak.src = 'mobassets/akrep_bacak.png';
+_MOB_ASSETS.akrep_kuyruk.src = 'mobassets/akrep_kuyruk.png';
+_MOB_ASSETS.akrep_igne.src = 'mobassets/akrep_igne.png';
+_MOB_ASSETS.akrep_kol_ust.src = 'mobassets/akrep_kol_ust.png';
+_MOB_ASSETS.akrep_kol_alt.src = 'mobassets/akrep_kol_alt.png';
+_MOB_ASSETS.akrep_kiskac_dis.src = 'mobassets/akrep_kiskac_dis.png';
+_MOB_ASSETS.akrep_kiskac_ic.src = 'mobassets/akrep_kiskac_ic.png';
+
+_MOB_ASSETS.bear_govde.src = 'mobassets/bear_govde.png';
+_MOB_ASSETS.bear_kafa.src = 'mobassets/bear_kafa.png';
+_MOB_ASSETS.bear_kafa_acik.src = 'mobassets/bear_kafa_acik.png';
+_MOB_ASSETS.bear_kol.src = 'mobassets/bear_kol.png';
+_MOB_ASSETS.bear_pence.src = 'mobassets/bear_pence.png';
+_MOB_ASSETS.bear_bacak.src = 'mobassets/bear_bacak.png';
+_MOB_ASSETS.bear_kuyruk.src = 'mobassets/bear_kuyruk.png';
+_MOB_ASSETS.bear_cizik.src = 'mobassets/bear_cizik.png';
+
+_MOB_ASSETS.spider_abdomen.src = 'mobassets/spider_abdomen.png';
+_MOB_ASSETS.spider_kafa.src = 'mobassets/spider_kafa.png';
+_MOB_ASSETS.spider_bacak.src = 'mobassets/spider_bacak.png';
+_MOB_ASSETS.spider_pedipalp.src = 'mobassets/spider_pedipalp.png';
+_MOB_ASSETS.spider_dis.src = 'mobassets/spider_dis.png';
+_MOB_ASSETS.spider_ag_mermi.src = 'mobassets/spider_ag_mermi.png';
+_MOB_ASSETS.spider_ag_tuzak.src = 'mobassets/spider_ag_tuzak.png';
+
+const _mobWebProjectiles = [];
+const _mobWebTraps = [];
+const _mobScratchEffects = [];
+
+function spawnMobAttackEffect(type, x, y, angle, targetX, targetY) {
+  if (type === 'spider' || type === 'orumcek' || type === 'örümcek' || type === 'spider_web') {
+    const ang = angle !== undefined ? angle : (targetX !== undefined && targetY !== undefined ? Math.atan2(targetY - y, targetX - x) : 0);
+    _mobWebProjectiles.push({
+      x, y, vx: Math.cos(ang) * 14, vy: Math.sin(ang) * 14,
+      angle: ang, life: 35, active: true, targetX, targetY
+    });
+    playSound(420, 0.08, 'triangle', 0.2);
+  } else if (type === 'bear' || type === 'ayi') {
+    _mobScratchEffects.push({
+      x: targetX !== undefined ? targetX : x,
+      y: targetY !== undefined ? targetY : y,
+      angle: angle !== undefined ? angle : 0,
+      life: 25, maxLife: 25
+    });
+    shake(12);
+    playSound(110, 0.2, 'sawtooth', 0.4);
+  } else if (type === 'scorpion' || type === 'akrep') {
+    if (typeof spawnBlood === 'function') spawnBlood(targetX || x, targetY || y, 6);
+    playSound(280, 0.12, 'sawtooth', 0.3);
+  } else if (type === 'wolf' || type === 'kurt') {
+    if (typeof spawnBlood === 'function') spawnBlood(targetX || x, targetY || y, 8);
+    playSound(150, 0.15, 'sawtooth', 0.35);
   }
 }
 
+function updateAndDrawMobAttackEffects(ctx) {
+  // 1. Web Traps (rendered underneath projectiles)
+  for (let i = _mobWebTraps.length - 1; i >= 0; i--) {
+    const wt = _mobWebTraps[i];
+    wt.life--;
+    const alpha = Math.min(1, wt.life / 20);
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(wt.x, wt.y);
+    if (_MOB_ASSETS.spider_ag_tuzak.complete && _MOB_ASSETS.spider_ag_tuzak.naturalWidth > 0) {
+      ctx.drawImage(_MOB_ASSETS.spider_ag_tuzak, -45, -45, 90, 90);
+    } else {
+      ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(0, 0, 35, 0, Math.PI * 2); ctx.stroke();
+    }
+    ctx.restore();
+    if (Math.hypot(wt.x - player.x, wt.y - player.y) < 45) {
+      player.vx *= 0.72; player.vy *= 0.72;
+    }
+    if (wt.life <= 0) _mobWebTraps.splice(i, 1);
+  }
+
+  // 2. Web Projectiles
+  for (let i = _mobWebProjectiles.length - 1; i >= 0; i--) {
+    const wp = _mobWebProjectiles[i];
+    wp.x += wp.vx;
+    wp.y += wp.vy;
+    wp.life--;
+    ctx.save();
+    ctx.translate(wp.x, wp.y);
+    ctx.rotate(wp.angle);
+    if (_MOB_ASSETS.spider_ag_mermi.complete && _MOB_ASSETS.spider_ag_mermi.naturalWidth > 0) {
+      ctx.drawImage(_MOB_ASSETS.spider_ag_mermi, -25, -25, 50, 50);
+    } else {
+      ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(0, 0, 12, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+
+    // Check hit on player — 1.5s Complete Root + Damage on Impact
+    if (wp.active && Math.hypot(wp.x - player.x, wp.y - player.y) < 48) {
+      wp.active = false;
+      player._webRootTimer = 90; // 90 frames = 1.5 seconds rooted
+      player.vx = 0; player.vy = 0;
+      player.momX = 0; player.momY = 0;
+      const webDmg = wp.dmg || 16;
+      player.hp = Math.max(0, player.hp - webDmg);
+      updateHpBar();
+      triggerDmgFlash();
+      shake(10);
+      floatingTexts.push({ x: player.x, y: player.y - 65, text: `🕸️ -${webDmg} HP  AĞA YAKALANDIN! (1.5s)`, alpha: 1, life: 65, color: '#ffffff', big: true });
+      playSound(140, 0.2, 'sawtooth', 0.4);
+      if (player.hp <= 0 && !_isDying) die();
+    }
+    if (wp.life <= 0 || !wp.active) _mobWebProjectiles.splice(i, 1);
+  }
+
+  // 3. Bear Claw Scratch Effects
+  for (let i = _mobScratchEffects.length - 1; i >= 0; i--) {
+    const sc = _mobScratchEffects[i];
+    sc.life--;
+    const alpha = sc.life / sc.maxLife;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(sc.x, sc.y);
+    ctx.rotate(sc.angle);
+    if (_MOB_ASSETS.bear_cizik.complete && _MOB_ASSETS.bear_cizik.naturalWidth > 0) {
+      ctx.drawImage(_MOB_ASSETS.bear_cizik, -65, -65, 130, 130);
+    } else {
+      ctx.strokeStyle = 'rgba(255,50,0,0.85)'; ctx.lineWidth = 6;
+      ctx.beginPath(); ctx.moveTo(-45, -45); ctx.lineTo(45, 45); ctx.stroke();
+    }
+    ctx.restore();
+    if (sc.life <= 0) _mobScratchEffects.splice(i, 1);
+  }
+}
+
+function _drawSpriteWolf(ctx, e, R, isMoving, state, animTimer, attackTimer, flash) {
+  if (!_MOB_ASSETS.kurt_govde.complete || _MOB_ASSETS.kurt_govde.naturalWidth === 0) {
+    _mBody(ctx, R, e.color, e.outline);
+    return;
+  }
+  ctx.save();
+  const scale = R / 28;
+  ctx.scale(scale, scale);
+  ctx.rotate(Math.PI / 2);
+
+  const attackDuration = 55;
+  const attackProg = state === 'attack' ? (attackTimer / attackDuration) : 0;
+  let stretchY = 0;
+  let headStretchY = 0;
+  let isBiting = false;
+
+  if (state === 'attack') {
+    if (attackProg < 0.3) {
+      const w = attackProg / 0.3;
+      stretchY = w * 8;
+      headStretchY = w * 6;
+    } else if (attackProg < 0.6) {
+      const s = (attackProg - 0.3) / 0.3;
+      const strike = Math.sin(s * Math.PI);
+      stretchY = -strike * 18;
+      headStretchY = -strike * 28;
+      isBiting = true;
+    } else {
+      const r = (attackProg - 0.6) / 0.4;
+      stretchY = -18 * (1 - r);
+      headStretchY = -28 * (1 - r);
+    }
+  }
+
+  const bodyBob = isMoving && state !== 'attack' ? Math.sin(animTimer * 2) * 2 : Math.sin(animTimer) * 1.5;
+
+  if (flash) {
+    ctx.filter = 'brightness(2) invert(0.2)';
+  }
+
+  // 1. Paws
+  const paws = [
+    { x: -22, y: -15, phase: 0 },
+    { x: 22, y: -15, phase: Math.PI },
+    { x: -24, y: 25, phase: Math.PI },
+    { x: 24, y: 25, phase: 0 }
+  ];
+  paws.forEach(paw => {
+    const moveAnim = isMoving && state !== 'attack' ? Math.sin(animTimer + paw.phase) * 12 : 0;
+    ctx.drawImage(_MOB_ASSETS.kurt_pati, paw.x - 20, (paw.y + moveAnim) - 20, 40, 40);
+  });
+
+  // 2. Tail
+  ctx.save();
+  let tailSwing = isMoving ? Math.sin(animTimer) * 0.4 : Math.sin(animTimer * 0.5) * 0.2;
+  if (state === 'attack') tailSwing = 0;
+  ctx.translate(0, 32 + bodyBob);
+  ctx.rotate(tailSwing);
+  ctx.drawImage(_MOB_ASSETS.kurt_kuyruk, -60, -20, 120, 120);
+  ctx.restore();
+
+  // 3. Body
+  ctx.save();
+  ctx.translate(0, stretchY + bodyBob);
+  ctx.drawImage(_MOB_ASSETS.kurt_govde, -60, -60, 120, 120);
+  ctx.restore();
+
+  // 4. Head
+  ctx.save();
+  ctx.translate(0, stretchY + bodyBob + headStretchY - 10);
+  const currentHead = isBiting ? _MOB_ASSETS.kurt_kafa_acik : _MOB_ASSETS.kurt_kafa;
+  ctx.drawImage(currentHead, -50, -50, 100, 100);
+  ctx.restore();
+
+  ctx.restore();
+}
+
+function _drawSpriteScorpion(ctx, e, R, isMoving, state, animTimer, attackTimer, flash) {
+  if (!_MOB_ASSETS.akrep_govde.complete || _MOB_ASSETS.akrep_govde.naturalWidth === 0) {
+    _mBody(ctx, R, e.color, e.outline);
+    return;
+  }
+  ctx.save();
+  const scale = R / 32;
+  ctx.scale(scale, scale);
+  ctx.rotate(Math.PI / 2);
+
+  const attackDuration = 70;
+  const attackProg = state === 'attack' ? (attackTimer / attackDuration) : 0;
+
+  if (flash) {
+    ctx.filter = 'brightness(2) invert(0.2)';
+  }
+
+  // 1. Shadow
+  ctx.fillStyle = 'rgba(0,0,0,0.38)';
+  ctx.beginPath(); ctx.ellipse(0, 5, 34, 50, 0, 0, Math.PI * 2); ctx.fill();
+
+  // 2. Legs (8 Legs)
+  for (let i = 0; i < 4; i++) {
+    for (let side = -1; side <= 1; side += 2) {
+      const yOffset = (i - 1.5) * 14;
+      const legPhase = (i + (side === -1 ? 2 : 0)) * Math.PI / 2;
+      ctx.save();
+      ctx.translate(side * 14, yOffset);
+      if (side === -1) ctx.scale(-1, 1);
+      ctx.rotate(Math.sin(animTimer * 2 + legPhase) * (isMoving ? 0.38 : 0.05));
+      ctx.drawImage(_MOB_ASSETS.akrep_bacak, -15, -30, 60, 60);
+      ctx.restore();
+    }
+  }
+
+  // 3. Tail (6 Segments + Stinger)
+  ctx.save();
+  let tailBaseAngle = Math.sin(animTimer * 0.5) * 0.1;
+  if (state === 'attack') {
+    if (attackProg < 0.4) {
+      tailBaseAngle = (attackProg / 0.4) * Math.PI * 0.35;
+    } else {
+      const strikeProg = (attackProg - 0.4) / 0.6;
+      const strikeForce = Math.sin(strikeProg * Math.PI);
+      tailBaseAngle = Math.PI * 0.35 - strikeForce * Math.PI * 1.5;
+    }
+  }
+  ctx.translate(0, 32);
+  ctx.rotate(tailBaseAngle);
+
+  const tailSegments = 6;
+  for (let t = 0; t < tailSegments; t++) {
+    let segAngle = 0;
+    if (state === 'attack') {
+      if (attackProg < 0.4) {
+        segAngle = (attackProg / 0.4) * 0.18;
+      } else {
+        const strikeProg = (attackProg - 0.4) / 0.6;
+        const sf = Math.sin(strikeProg * Math.PI);
+        segAngle = -sf * 0.25;
+        if (t > 2) segAngle *= 1.6;
+      }
+    } else {
+      segAngle = Math.sin(animTimer * 0.8 + t * 0.5) * 0.08;
+    }
+    ctx.rotate(segAngle);
+    const segScale = 1 - (t * 0.1);
+    ctx.save(); ctx.scale(segScale, segScale);
+    ctx.drawImage(_MOB_ASSETS.akrep_kuyruk, -20, -20, 40, 40);
+    ctx.restore();
+    ctx.translate(0, 14);
+  }
+
+  if (state === 'attack') {
+    const stingerAngle = attackProg < 0.4 ? 0 : -Math.sin(((attackProg - 0.4) / 0.6) * Math.PI) * 0.6;
+    ctx.rotate(stingerAngle);
+  }
+  ctx.drawImage(_MOB_ASSETS.akrep_igne, -20, -25, 40, 40);
+  ctx.restore();
+
+  // 4. Body & Head
+  ctx.save();
+  ctx.drawImage(_MOB_ASSETS.akrep_govde, -50, -50, 100, 100);
+  ctx.translate(0, -32);
+  ctx.drawImage(_MOB_ASSETS.akrep_kafa, -30, -30, 60, 60);
+  ctx.restore();
+
+  // 5. Pincers
+  for (let side = -1; side <= 1; side += 2) {
+    ctx.save();
+    let shoulderAngle = side * 0.4;
+    let elbowAngle = side * -0.6;
+    let pincerAngle = 0;
+    const shoulderX = side * 18;
+    const shoulderY = -34;
+
+    if (state === 'attack') {
+      if (attackProg < 0.4) {
+        const w = attackProg / 0.4;
+        shoulderAngle += side * w * 0.3;
+        elbowAngle -= side * w * 0.3;
+        pincerAngle = w * 0.6;
+      } else {
+        const s = (attackProg - 0.4) / 0.6;
+        const strike = Math.sin(s * Math.PI);
+        shoulderAngle -= side * 0.6 * strike;
+        elbowAngle += side * strike * 0.9;
+        pincerAngle = 0.6 - (strike * 0.8);
+      }
+    }
+
+    ctx.translate(shoulderX, shoulderY);
+    ctx.rotate(shoulderAngle);
+    if (side === -1) ctx.scale(-1, 1);
+    ctx.drawImage(_MOB_ASSETS.akrep_kol_ust, -15, -20, 30, 40);
+
+    ctx.translate(0, -18);
+    ctx.rotate(elbowAngle);
+    ctx.drawImage(_MOB_ASSETS.akrep_kol_alt, -15, -20, 30, 40);
+
+    ctx.translate(0, -18);
+    ctx.save();
+    ctx.rotate(pincerAngle);
+    ctx.drawImage(_MOB_ASSETS.akrep_kiskac_dis, -15, -25, 30, 50);
+    ctx.restore();
+
+    ctx.save();
+    ctx.rotate(-pincerAngle * 0.5);
+    ctx.drawImage(_MOB_ASSETS.akrep_kiskac_ic, -10, -20, 20, 40);
+    ctx.restore();
+
+    ctx.restore();
+  }
+
+  ctx.restore();
+}
+
+function _drawSpriteBear(ctx, e, R, isMoving, state, animTimer, attackTimer, flash) {
+  if (!_MOB_ASSETS.bear_govde.complete || _MOB_ASSETS.bear_govde.naturalWidth === 0) {
+    _mBody(ctx, R, e.color, e.outline);
+    return;
+  }
+  ctx.save();
+  const scale = R / 36;
+  ctx.scale(scale, scale);
+  ctx.rotate(Math.PI / 2);
+
+  const aDur = 75;
+  const aProg = state === 'attack' ? (attackTimer / aDur) : 0;
+  const bodySway = isMoving ? Math.sin(animTimer) * 0.1 : 0;
+  let bY = 0; let aLift = 0; let aSmash = 0; let hY = 0; let roar = false;
+
+  if (state === 'attack') {
+    if (aProg < 0.4) {
+      const w = Math.sin((aProg / 0.4) * (Math.PI / 2));
+      bY = w * 8; aLift = w * 32; hY = -w * 6;
+    } else if (aProg < 0.65) {
+      const s = (aProg - 0.4) / 0.25;
+      const strike = Math.max(0, Math.sin(s * Math.PI));
+      bY = 8 - (strike * 20); aLift = 32 * (1 - s); aSmash = strike; hY = strike * 18; roar = true;
+    } else {
+      const r = (aProg - 0.65) / 0.35;
+      bY = -12 * (1 - Math.pow(1 - r, 2));
+    }
+  } else if (isMoving) {
+    bY = Math.abs(Math.sin(animTimer * 2)) * 3;
+  } else {
+    bY = Math.sin(animTimer) * 1.5;
+  }
+
+  ctx.rotate(bodySway);
+
+  if (flash) {
+    ctx.filter = 'brightness(2) invert(0.2)';
+  }
+
+  // 1. Shadow
+  ctx.fillStyle = `rgba(0,0,0,${0.45 - (aLift * 0.01)})`;
+  ctx.beginPath(); ctx.ellipse(0, 10 + bY, 42, 58, 0, 0, Math.PI * 2); ctx.fill();
+
+  // 2. Back legs
+  for (let s = -1; s <= 1; s += 2) {
+    ctx.save();
+    const lMv = isMoving ? Math.sin(animTimer + (s === 1 ? Math.PI : 0)) * 12 : 0;
+    ctx.translate(s * 22 + (s * aLift * 0.2), 35 + bY + lMv);
+    if (s === -1) ctx.scale(-1, 1);
+    ctx.drawImage(_MOB_ASSETS.bear_bacak, -30, -30, 60, 60);
+    ctx.restore();
+  }
+
+  // 3. Tail
+  ctx.save();
+  ctx.translate(0, 48 + bY);
+  ctx.drawImage(_MOB_ASSETS.bear_kuyruk, -20, -20, 40, 40);
+  ctx.restore();
+
+  // 4. Body (Rendered underneath arms so front paws are fully visible!)
+  ctx.save();
+  ctx.translate(0, bY);
+  ctx.drawImage(_MOB_ASSETS.bear_govde, -60, -60, 120, 120);
+
+  // 5. Head
+  ctx.translate(0, -25 + hY);
+  const kafaImg = roar ? _MOB_ASSETS.bear_kafa_acik : _MOB_ASSETS.bear_kafa;
+  ctx.drawImage(kafaImg, -40, -40, 80, 80);
+  ctx.restore();
+
+  // 6. Arms & Massive Claws (Rendered on top in foreground!)
+  for (let s = -1; s <= 1; s += 2) {
+    ctx.save();
+    ctx.translate(s * 26, -10 + bY);
+    let handX = s * 6;
+    let handY = 26 + aLift;
+    if (isMoving) handY += Math.sin(animTimer + (s === -1 ? Math.PI : 0)) * 14;
+    if (state === 'attack' && aSmash > 0) {
+      handY -= aSmash * 42;
+      handX -= s * aSmash * 18;
+    }
+    const armLen = Math.hypot(handX, handY);
+    const armAng = Math.atan2(handY, handX) - Math.PI / 2;
+
+    ctx.save();
+    ctx.rotate(armAng);
+    ctx.scale(1, armLen / 28);
+    if (s === -1) ctx.scale(-1, 1);
+    ctx.drawImage(_MOB_ASSETS.bear_kol, -16, 0, 32, 32);
+    ctx.restore();
+
+    // Large visible front paw
+    ctx.save();
+    ctx.translate(handX, handY);
+    let pawAng = s * 0.2;
+    if (aSmash > 0) pawAng = -s * 0.8 * aSmash;
+    ctx.rotate(pawAng);
+    if (s === -1) ctx.scale(-1, 1);
+    ctx.drawImage(_MOB_ASSETS.bear_pence, -30, -25, 60, 60);
+    ctx.restore();
+
+    ctx.restore();
+  }
+
+  // 7. Scratch swipe effect
+  if (state === 'attack' && aSmash > 0.08 && _MOB_ASSETS.bear_cizik.complete) {
+    ctx.save();
+    ctx.translate(0, -52);
+    ctx.globalAlpha = Math.min(1, aSmash * 1.2);
+    ctx.drawImage(_MOB_ASSETS.bear_cizik, -65, -65, 130, 130);
+    ctx.restore();
+  }
+
+  ctx.restore();
+}
+
+function _drawSpriteSpider(ctx, e, R, isMoving, state, animTimer, attackTimer, flash) {
+  if (!_MOB_ASSETS.spider_abdomen.complete || _MOB_ASSETS.spider_abdomen.naturalWidth === 0) {
+    _mBody(ctx, R, e.color, e.outline);
+    return;
+  }
+  ctx.save();
+  const scale = R / 30;
+  ctx.scale(scale, scale);
+  ctx.rotate(Math.PI / 2);
+
+  const attackDuration = 65;
+  const attackProg = state === 'attack' ? (attackTimer / attackDuration) : 0;
+  let rearing = 0; let lunge = 0; let fangOp = 0;
+
+  if (state === 'attack') {
+    if (attackProg < 0.4) {
+      rearing = Math.sin((attackProg / 0.4) * (Math.PI / 2));
+    } else if (attackProg < 0.65) {
+      const s = (attackProg - 0.4) / 0.25;
+      lunge = Math.sin(s * Math.PI);
+      fangOp = lunge;
+      rearing = 1 - s;
+    }
+  }
+
+  const bodyY = (rearing * 12) - (lunge * 20);
+
+  if (flash) {
+    ctx.filter = 'brightness(2) invert(0.2)';
+  }
+
+  // Shadow
+  ctx.fillStyle = `rgba(0,0,0,${0.45 - (rearing * 0.2)})`;
+  ctx.beginPath(); ctx.ellipse(0, bodyY, 35, 45, 0, 0, Math.PI * 2); ctx.fill();
+
+  // Legs
+  const legs = [
+    { s: -1, x: -12, y: -15, r: -0.2, f: true },
+    { s: -1, x: -14, y: -5,  r: 0,    f: true },
+    { s: -1, x: -14, y: 5,   r: 0.2,  f: false },
+    { s: -1, x: -12, y: 15,  r: 0.5,  f: false },
+    { s: 1,  x: 12,  y: -15, r: 0.2,  f: true },
+    { s: 1,  x: 14,  y: -5,  r: 0,    f: true },
+    { s: 1,  x: 14,  y: 5,   r: -0.2, f: false },
+    { s: 1,  x: 12,  y: 15,  r: -0.5, f: false }
+  ];
+
+  legs.forEach((leg, i) => {
+    ctx.save();
+    ctx.translate(leg.x, bodyY + leg.y);
+    const moveAnim = isMoving ? Math.sin(animTimer + i) * 0.3 : 0;
+    const liftAnim = leg.f ? (rearing * 0.6) : 0;
+    ctx.rotate(leg.r + moveAnim + (leg.s * liftAnim));
+    if (leg.s === -1) ctx.scale(-1, 1);
+    ctx.drawImage(_MOB_ASSETS.spider_bacak, -10, -20, 60, 60);
+    ctx.restore();
+  });
+
+  // Body (Abdomen & Head)
+  ctx.save();
+  ctx.translate(0, bodyY);
+  ctx.drawImage(_MOB_ASSETS.spider_abdomen, -35, -30, 70, 85);
+  ctx.translate(0, -25 - (rearing * 5));
+  ctx.drawImage(_MOB_ASSETS.spider_kafa, -25, -25, 50, 45);
+
+  // Pedipalps
+  for (let side = -1; side <= 1; side += 2) {
+    ctx.save();
+    ctx.translate(side * 10, -15);
+    ctx.rotate(side * (0.2 + rearing * 0.6));
+    if (side === -1) ctx.scale(-1, 1);
+    ctx.drawImage(_MOB_ASSETS.spider_pedipalp, -8, -25, 24, 32);
+    ctx.restore();
+  }
+
+  // Fangs
+  for (let side = -1; side <= 1; side += 2) {
+    ctx.save();
+    ctx.translate(side * 5, -18);
+    ctx.rotate(side * (0.1 + fangOp));
+    if (side === -1) ctx.scale(-1, 1);
+    ctx.drawImage(_MOB_ASSETS.spider_dis, -8, -12, 16, 24);
+    ctx.restore();
+  }
+
+  ctx.restore();
+  ctx.restore();
+}
 
 // ── Main enemy draw entry point ───────────────────────────────
 function drawEnemy(e) {
   if (!e || !(e.radius > 0)) return;
   const flash = e.hitFlash > 0;
   const R = e.radius;
-  const col = flash ? '#ffffff' : e.color;
-  const out = flash ? '#888888' : (e.outline || '#111');
+  const shape = e.shape || 'wolf';
 
-  // All mobs draw full high-detail animated shapes (no circle/blob reduction)
-  const _sdx = Math.abs(e.x - camX) * ZOOM;
-  const _sdy = Math.abs(e.y - camY) * ZOOM;
-  const _screenDist = _sdx + _sdy;
+  const isMoving = Math.hypot(e.vx || 0, e.vy || 0) > 0.4;
+  e.animTimer = (e.animTimer || 0) + (isMoving ? 0.22 : 0.05);
 
-  const t = globalTime;
-  const eyeCol = e.eyes || '#ff2200';
-  const shape = e.shape || 'basic';
-  const _mobImage = !flash ? _mobSprite(shape, R | 0) : null;
-  // Prefer movement direction (vx/vy) so mobs face where they're going
-  const angle = (e.vx !== 0 || e.vy !== 0)
-    ? Math.atan2(e.vy, e.vx)
-    : (e.angle != null ? e.angle : Math.atan2(player.y - e.y, player.x - e.x));
-  // Breathe/bob: only for close high-quality rendering
-  const doAnim = _qualityLevel >= 1 && _screenDist < 350;
-  const breathe = doAnim ? 1 + Math.sin(t * 0.05 + e.x * 0.007 + e.y * 0.005) * 0.038 : 1;
-  const bob = doAnim ? Math.sin(t * 0.09 + e.x * 0.011) * R * 0.04 : 0;
+  const dur = (shape === 'scorpion' || shape === 'akrep') ? 70 : ((shape === 'bear' || shape === 'ayi') ? 75 : ((shape === 'spider' || shape === 'orumcek' || shape === 'örümcek') ? 65 : 55));
 
-  ctx.globalAlpha = 1; ctx.shadowBlur = 0;
-  ctx.save();
-  try {
-    ctx.translate(e.x, e.y);
-    // Shadow only on quality 2 (was quality >= 1 — was killing mobile perf)
-    if (_qualityLevel >= 2) _mShadow(ctx, R);
-    if (bob !== 0) ctx.translate(0, bob);
-    if (breathe !== 1) ctx.scale(breathe, breathe);
-    ctx.rotate(angle);
-    if (_mobImage) {
-      if (shape === 'elephant') ctx.globalCompositeOperation = 'screen';
-      _drawCenteredSprite(ctx, _mobImage, R * 3.4);
-      ctx.globalCompositeOperation = 'source-over';
-    // PERF: OffscreenCanvas mob shape cache — replaces N complex path ops with N drawImage calls.
-    // Cache key encodes shape+radius+color; hitFlash bypasses (white flash must show immediately).
-    // Re-renders every 6 frames (~10Hz) to capture internal animations (eye pulse, tentacle etc).
-    } else {
-      const _mCKey = shape + (R | 0) + col + _qualityLevel;
-      const _ocTTL = _qualityLevel === 0 ? 10 : _qualityLevel === 1 ? 8 : 5;
-      if (!flash && e._ocKey === _mCKey && (globalTime - e._ocAge) < _ocTTL) {
-        ctx.drawImage(e._oc, -(e._oc.width >> 1), -(e._oc.width >> 1));
-      } else if (!flash && typeof OffscreenCanvas !== 'undefined') {
-        const _cw = Math.max(4, (R * 3.2) | 0);
-        if (!e._oc || e._oc.width !== _cw) e._oc = new OffscreenCanvas(_cw, _cw);
-        const _occ = e._oc.getContext('2d');
-        _occ.imageSmoothingEnabled = true; _occ.imageSmoothingQuality = 'high';
-        _occ.setTransform(1,0,0,1,0,0); _occ.globalAlpha = 1; _occ.shadowBlur = 0;
-        _occ.clearRect(0, 0, _cw, _cw);
-        _occ.save(); _occ.translate(_cw >> 1, _cw >> 1);
-        drawMobShape(_occ, R, col, out, eyeCol, shape, globalTime, e);
-        _occ.restore();
-        e._ocKey = _mCKey; e._ocAge = globalTime;
-        ctx.drawImage(e._oc, -(_cw >> 1), -(_cw >> 1));
-      } else {
-        drawMobShape(ctx, R, col, out, eyeCol, shape, t, e);
+  // Auto-trigger attack animation if close to player or spider at range
+  const distToPlayer = Math.hypot(e.x - player.x, e.y - player.y);
+  const now = Date.now();
+  if (e.state !== 'attack' && distToPlayer < (e.radius + player.radius + 32)) {
+    if (now - (e._lastAtkAnimTime || 0) > 1600) {
+      e.state = 'attack';
+      e.attackTimer = 0;
+      e._lastAtkAnimTime = now;
+      if (shape === 'bear' || shape === 'ayi') {
+        spawnMobAttackEffect('bear', e.x, e.y, Math.atan2(player.y - e.y, player.x - e.x), player.x, player.y);
       }
     }
-    // Large mob name label
-    if (R >= 50) {
-      ctx.rotate(-angle);
-      ctx.font = 'bold ' + (R > 55 ? 12 : 10) + 'px Nunito,Arial,sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.strokeStyle = '#000';
-      ctx.lineWidth = 3;
-      ctx.strokeText(e.typeName || '', 0, 0);
-      ctx.fillStyle = '#fff';
-      ctx.fillText(e.typeName || '', 0, 0);
+  } else if (e.state !== 'attack' && (shape === 'spider' || shape === 'orumcek' || shape === 'örümcek') && distToPlayer < 300 && distToPlayer > 70) {
+    if (now - (e._lastWebAnimTime || 0) > 5000) {
+      e.state = 'attack';
+      e.attackTimer = 0;
+      e._lastWebAnimTime = now;
+      spawnMobAttackEffect('spider_web', e.x, e.y, Math.atan2(player.y - e.y, player.x - e.x), player.x, player.y);
     }
-  } finally {
-    ctx.restore();
   }
+
+  if (e.state === 'attack') {
+    e.attackTimer = (e.attackTimer || 0) + 0.8;
+    if (e.attackTimer >= dur) {
+      e.state = isMoving ? 'walk' : 'idle';
+      e.attackTimer = 0;
+    }
+  } else {
+    e.state = isMoving ? 'walk' : 'idle';
+  }
+
+  let angle = e.angle;
+  if (e.state === 'attack' || (e.vx === 0 && e.vy === 0)) {
+    angle = Math.atan2(player.y - e.y, player.x - e.x);
+  } else if (e.vx !== 0 || e.vy !== 0) {
+    angle = Math.atan2(e.vy, e.vx);
+  }
+  if (angle == null) angle = 0;
+  e.angle = angle;
+
+  ctx.save();
+  ctx.translate(e.x, e.y);
+  ctx.rotate(angle);
+
+  if (shape === 'wolf' || shape === 'kurt') {
+    _drawSpriteWolf(ctx, e, R, isMoving, e.state, e.animTimer, e.attackTimer, flash);
+  } else if (shape === 'scorpion' || shape === 'akrep') {
+    _drawSpriteScorpion(ctx, e, R, isMoving, e.state, e.animTimer, e.attackTimer, flash);
+  } else if (shape === 'bear' || shape === 'ayi') {
+    _drawSpriteBear(ctx, e, R, isMoving, e.state, e.animTimer, e.attackTimer, flash);
+  } else if (shape === 'spider' || shape === 'orumcek' || shape === 'örümcek') {
+    _drawSpriteSpider(ctx, e, R, isMoving, e.state, e.animTimer, e.attackTimer, flash);
+  } else {
+    drawMobShape(ctx, R, e.color, e.outline, e.eyes, shape, globalTime, e);
+  }
+
+  ctx.restore();
 
   // HP bar
   drawHpBar(e.x, e.y - R - 14, e.hp, e.maxHp, Math.max(55, R * 1.6), 0);
+
+  // Mob name tag
+  if (e.typeName) {
+    ctx.save();
+    ctx.font = 'bold 11px Nunito,Arial,sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 3;
+    ctx.strokeText(e.typeName, e.x, e.y - R - 16);
+    ctx.fillStyle = '#fff';
+    ctx.fillText(e.typeName, e.x, e.y - R - 16);
+    ctx.restore();
+  }
 
   // Aggro alert — red speech bubble "!" when first aggroed (one-shot pulse)
   if (e.provoked) {
@@ -11032,6 +11681,27 @@ function drawPlayer() {
     ctx.restore();
   }
 
+  // ── SPIDER WEB ROOT VISUAL (1.5s immobilization - slightly larger than player) ──
+  if (player._webRootTimer > 0) {
+    const t = globalTime * 0.08;
+    const R = player.radius + 6;
+    ctx.save();
+    ctx.rotate(-player.angle);
+    if (_MOB_ASSETS.spider_ag_tuzak.complete && _MOB_ASSETS.spider_ag_tuzak.naturalWidth > 0) {
+      ctx.globalAlpha = 0.90;
+      ctx.drawImage(_MOB_ASSETS.spider_ag_tuzak, -R, -R, R * 2, R * 2);
+    }
+    ctx.globalAlpha = 0.85 + 0.15 * Math.sin(t * 6);
+    ctx.strokeStyle = 'rgba(255,255,255,0.95)';
+    ctx.lineWidth = 2.2;
+    ctx.beginPath(); ctx.arc(0, 0, R * 0.9, 0, Math.PI * 2); ctx.stroke();
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2 + t * 0.3;
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(a) * R, Math.sin(a) * R); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
   ctx.restore();
 }
 
@@ -11045,17 +11715,20 @@ const _RENDER_DELAY = 50; // ms behind real-time (düşük = daha az görsel gec
 function _interpOtherPlayers() {
   const renderT = Date.now() - _RENDER_DELAY;
   _otherPlayers.forEach((p) => {
-    // If trapped by a trap building, pin directly to the trap center — zero drift
+    // If trapped by a trap building, freeze in place — zero drift, no teleport to center
     if (p._trappedBy) {
       const _trb = _buildingsMap.get(p._trappedBy) || buildings.find(b => (b._netId === p._trappedBy || b.id === p._trappedBy || b._bLid === p._trappedBy));
       if (_trb && _trb.hp > 0) {
-        p.x = _trb.x;
-        p.y = _trb.y;
+        if (p._trappedX === undefined) { p._trappedX = p.x; p._trappedY = p.y; }
+        p.x = p._trappedX;
+        p.y = p._trappedY;
         p.vx = 0;
         p.vy = 0;
         return;
       } else {
         p._trappedBy = null;
+        p._trappedX = undefined;
+        p._trappedY = undefined;
       }
     }
     // PERF: skip full interp for players far outside visible area
@@ -11169,55 +11842,64 @@ function resolveEntitySolidCollision(e, isBoss) {
   const eRad = isBoss ? (e.bossR || 78) : (e.radius || 28);
   const searchR = eRad + 120;
 
-  // 2-Pass hard push prevents multiple overlapping buildings from causing tunnelling
-  for (let pass = 0; pass < 2; pass++) {
-    // 1. Nearby Buildings (Wall, Spike, Windmill, Turret, Castle, Campfire)
-    if (typeof _sgQuery === 'function') {
-      const nearB = _sgQuery(e.x, e.y, searchR);
-      for (let i = 0; i < nearB.length; i++) {
-        const b = nearB[i];
-        if (!b || b.hp <= 0) continue;
-        if (b.type === 5) continue; // Boost pad allows walkover
-        if (b.type === 6 && !isBoss) continue; // Traps capture normal mobs
-        const bRad = _BLD_RADII[b.type] || 36;
-        const minD = eRad + bRad;
-        const dx = e.x - b.x, dy = e.y - b.y;
-        const d2 = dx * dx + dy * dy;
-        if (d2 < minD * minD && d2 > 0) {
-          const d = Math.sqrt(d2);
-          const nx = dx / d, ny = dy / d;
-          const overlap = minD - d;
-          // 100% full solid push out â€” zero penetration
-          e.x += nx * overlap;
-          e.y += ny * overlap;
-          if (typeof e.vx === 'number') {
-            const dot = e.vx * nx + e.vy * ny;
-            if (dot < 0) { e.vx -= dot * nx * 1.3; e.vy -= dot * ny * 1.3; }
+  // 1. Nearby Buildings (Wall, Spike, Windmill, Turret, Castle, Campfire)
+  if (typeof _sgQuery === 'function') {
+    const nearB = _sgQuery(e.x, e.y, searchR);
+    for (let i = 0; i < nearB.length; i++) {
+      const b = nearB[i];
+      if (!b || b.hp <= 0) continue;
+      if (b.type === 5) continue; // Boost pad allows walkover
+      if (b.type === 6 && !isBoss) continue; // Traps capture normal mobs
+      const bRad = _BLD_RADII[b.type] || 36;
+      const minD = eRad + bRad;
+      const dx = e.x - b.x, dy = e.y - b.y;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < minD * minD && d2 > 0) {
+        const d = Math.sqrt(d2);
+        const nx = dx / d, ny = dy / d;
+        const overlap = minD - d;
+        e.x += nx * overlap;
+        e.y += ny * overlap;
+        if (typeof e.vx === 'number' && typeof e.vy === 'number') {
+          const dot = e.vx * nx + e.vy * ny;
+          if (dot < 0) {
+            e.vx -= dot * nx;
+            e.vy -= dot * ny;
+            const tx = -ny, ty = nx;
+            const tdot = e.vx * tx + e.vy * ty;
+            e.vx = tx * tdot * 0.98;
+            e.vy = ty * tdot * 0.98;
           }
         }
       }
     }
+  }
 
-    // 2. Nearby Resources (Tree, Rock, Gold, Apple Tree, Bush, Crystal, Hive)
-    if (typeof _resQuery === 'function') {
-      const nearRes = _resQuery(e.x, e.y, searchR);
-      for (let i = 0; i < nearRes.length; i++) {
-        const res = nearRes[i];
-        if (!res || res._destroyed || res.hp <= 0) continue;
-        const rRad = (res.radius || 38) * (_RES_COL_FRAC[res.type] || 0.65);
-        const minD = eRad + rRad;
-        const dx = e.x - res.x, dy = e.y - res.y;
-        const d2 = dx * dx + dy * dy;
-        if (d2 < minD * minD && d2 > 0) {
-          const d = Math.sqrt(d2);
-          const nx = dx / d, ny = dy / d;
-          const overlap = minD - d;
-          // 100% full push out
-          e.x += nx * overlap;
-          e.y += ny * overlap;
-          if (typeof e.vx === 'number') {
-            const dot = e.vx * nx + e.vy * ny;
-            if (dot < 0) { e.vx -= dot * nx * 1.3; e.vy -= dot * ny * 1.3; }
+  // 2. Nearby Resources (Tree, Rock, Gold, Apple Tree, Bush, Crystal, Hive)
+  if (typeof _resQuery === 'function') {
+    const nearRes = _resQuery(e.x, e.y, searchR);
+    for (let i = 0; i < nearRes.length; i++) {
+      const res = nearRes[i];
+      if (!res || res._destroyed || res.hp <= 0) continue;
+      const rRad = (res.radius || 38) * (_RES_COL_FRAC[res.type] || 0.65);
+      const minD = eRad + rRad;
+      const dx = e.x - res.x, dy = e.y - res.y;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < minD * minD && d2 > 0) {
+        const d = Math.sqrt(d2);
+        const nx = dx / d, ny = dy / d;
+        const overlap = minD - d;
+        e.x += nx * overlap;
+        e.y += ny * overlap;
+        if (typeof e.vx === 'number' && typeof e.vy === 'number') {
+          const dot = e.vx * nx + e.vy * ny;
+          if (dot < 0) {
+            e.vx -= dot * nx;
+            e.vy -= dot * ny;
+            const tx = -ny, ty = nx;
+            const tdot = e.vx * tx + e.vy * ty;
+            e.vx = tx * tdot * 0.98;
+            e.vy = ty * tdot * 0.98;
           }
         }
       }
@@ -11259,6 +11941,7 @@ function update(timestamp = 0) {
   }
   if (++_fpsCheckTimer >= 8) {
     _fpsCheckTimer = 0;
+    try { updateUI(); } catch(_uiErr) {}
     if (_fpsBufCount >= 8) {
       let _fpsSum = 0;
       for (let _fi = 0; _fi < _fpsBufCount; _fi++) _fpsSum += _fpsBuf[_fi];
@@ -11721,15 +12404,15 @@ function update(timestamp = 0) {
       // Online mobs skip the offline AI block (including trap detection below).
       // We handle traps here so server-controlled mobs still get caught.
       if (e._capturedByTrap) {
-        // Verify trap still alive; release if destroyed
+        // Verify trap still alive; release if destroyed or after 3s max hold
         var _onTrapRef = _buildingsMap.get(e._capturedByTrap) || null;
-        if (_onTrapRef && _onTrapRef.hp > 0) {
+        if (_onTrapRef && _onTrapRef.hp > 0 && (!e._capturedTrapTime || now - e._capturedTrapTime < 3000)) {
           e.vx = 0; e.vy = 0;
           e.x = e._capturedTrapX; e.y = e._capturedTrapY;
           e._targetX = e._capturedTrapX; e._targetY = e._capturedTrapY;
           if (e._frozenAngle !== undefined) e.angle = e._frozenAngle;
         } else {
-          e._capturedByTrap = null; e._capturedTrapX = undefined; e._capturedTrapY = undefined; e._frozenAngle = undefined;
+          e._capturedByTrap = null; e._capturedTrapX = undefined; e._capturedTrapY = undefined; e._frozenAngle = undefined; e._capturedTrapTime = undefined;
         }
       } else {
         var _onTrNear = _sgQuery(e.x, e.y, 120);
@@ -11738,14 +12421,15 @@ function update(timestamp = 0) {
           if (_otb.type !== 6 || _otb.hp <= 0) continue;
           var _otdx = _otb.x - e.x, _otdy = _otb.y - e.y;
           var _otd2 = _otdx * _otdx + _otdy * _otdy;
-          var _otMinD = e.radius + 20 + 20; // trap radius(20) + capture margin(20)
+          var _otMinD = e.radius + 42; // trap trigger radius
           if (_otd2 > _otMinD * _otMinD) continue;
-          // First contact — capture mob
+          // First contact — capture mob at its current position
           var _otKey = _otb._netId || _otb.id;
           e._capturedByTrap = _otKey;
-          e._capturedTrapX = _otb.x; e._capturedTrapY = _otb.y;
+          e._capturedTrapX = e.x; e._capturedTrapY = e.y;
+          e._capturedTrapTime = now;
           e.vx = 0; e.vy = 0;
-          e._targetX = _otb.x; e._targetY = _otb.y;
+          e._targetX = e.x; e._targetY = e.y;
           e._frozenAngle = (e.angle !== undefined ? e.angle : 0);
           playSound(220, 0.08, 'sine', 0.22);
           if (_connected && _socket && e._netId && _otb._netId) {
@@ -11856,23 +12540,26 @@ function update(timestamp = 0) {
           _spawnParticle(e.x+(Math.random()-0.5)*e.radius,e.y+(Math.random()-0.5)*e.radius,(Math.random()-0.5)*1.5,Math.random()*-2-0.5,2+Math.random()*2,18,'#88ccff');
       }
     }
-    // Online mobs: server handles damage via mob_attack event; still apply push-back locally
-    if (_connected && e._netId !== undefined && e.provoked && dist < player.radius + e.radius + 14) {
-      player.momX += (dx/dist) * 6; player.momY += (dy/dist) * 6; // physical push-back only
-    }
-    if (e.hp > 0 && !_spawnProtected && !(_connected && e._netId !== undefined) && e.provoked && dist < player.radius + e.radius + 8 && now - e.lastHit > 1000) {
-      _lastDamager = e;
-      const reducedDmg = Math.max(1, Math.round(e.dmg * (1 - (player.armorBonus || 0))));
-      player.hp -= reducedDmg; e.lastHit = now;
-      player.lastHitEnemyTime = now;
-      player.momX += (dx/dist)*14; player.momY += (dy/dist)*14;
-      shake(12);
-      spawnBlood(player.x, player.y, 9);
-      playSound(95 + Math.floor(Math.random()*40), 0.16, 'sawtooth', 0.3);
-      triggerDmgFlash();
-      floatingTexts.push({ x: player.x, y: player.y - 50, text: '-' + reducedDmg + ' HP', alpha: 1, life: 35, color: '#ff3333' });
-      if (player._thorns) { const _td=Math.round(reducedDmg*0.20); e.hp-=_td; e.hitFlash=8; floatingTexts.push({x:e.x,y:e.y-22,text:'🌑 -'+_td,alpha:1,life:28,color:'#cc44ff'}); if(_connected&&_socket&&e._netId)_socket.emit('mob_hit_req',{mobId:e._netId,dmg:_td}); }
-      if (player.hp <= 0) { player.hp = 0; if (!_isDying) die(); break; }
+    const mobReach = player.radius + e.radius + 16;
+    if (dist < mobReach) {
+      player.momX += (dx/dist) * 8; player.momY += (dy/dist) * 8; // physical push-back
+      if (e.hp > 0 && !_spawnProtected && (!_connected || e._netId === undefined) && now - (e.lastHit || 0) > 1600) {
+        _lastDamager = e;
+        e.lastHit = now;
+        e.state = 'attack';
+        e.attackTimer = 0;
+        const reducedDmg = Math.max(1, Math.round((e.dmg || 25) * (1 - (player.armorBonus || 0))));
+        player.hp = Math.max(0, player.hp - reducedDmg);
+        player.lastHitEnemyTime = now;
+        shake(12);
+        spawnBlood(player.x, player.y, 9);
+        playSound(95 + Math.floor(Math.random()*40), 0.16, 'sawtooth', 0.3);
+        triggerDmgFlash();
+        floatingTexts.push({ x: player.x, y: player.y - 50, text: `-${reducedDmg} HP (${e.typeName || 'Düşman'})`, alpha: 1, life: 45, color: '#ff3333', big: true });
+        if (player._thorns) { const _td=Math.round(reducedDmg*0.20); e.hp-=_td; e.hitFlash=8; floatingTexts.push({x:e.x,y:e.y-22,text:'🌑 -'+_td,alpha:1,life:28,color:'#cc44ff'}); }
+        updateHpBar();
+        if (player.hp <= 0 && !_isDying) { die(); break; }
+      }
     }
 
     // Enemy vs buildings — collision push-back + damage exchange
@@ -11892,12 +12579,26 @@ function update(timestamp = 0) {
       if (d < minD + 20 && d > 0) {
         const ang = Math.atan2(e.y - b.y, e.x - b.x);
 
-        // Spike (type 3): push enemy back ONLY — damage handled by checkBuildingDamage
+        // Spike (type 3): deals heavy spike damage to mob + push-back
         if (b.type === 3) {
           if (d < minD) {
-            e.x += Math.cos(ang) * (minD - d) * 0.7;
-            e.y += Math.sin(ang) * (minD - d) * 0.7;
-            e.vx += Math.cos(ang) * 5; e.vy += Math.sin(ang) * 5;
+            e.x += Math.cos(ang) * (minD - d) * 0.85;
+            e.y += Math.sin(ang) * (minD - d) * 0.85;
+            e.vx += Math.cos(ang) * 6; e.vy += Math.sin(ang) * 6;
+          }
+          if (!e._lastSpikeHitTime || now - e._lastSpikeHitTime > 400) {
+            e._lastSpikeHitTime = now;
+            const spikeTier = b.tier || 0;
+            const spikeDmg = [45, 75, 110, 160, 220, 300][spikeTier] || 45;
+            e.hp = Math.max(0, e.hp - spikeDmg);
+            e.hitFlash = 8;
+            b.shake = 5;
+            spawnBlood(e.x, e.y, 6);
+            playSound(140, 0.12, 'sawtooth', 0.25);
+            floatingTexts.push({ x: e.x, y: e.y - 35, text: `-${spikeDmg} 🗡️`, alpha: 1, life: 35, color: '#ffcc44', big: true });
+            if (_connected && _socket && e._netId) {
+              _socket.emit('mob_hit_req', { mobId: e._netId, dmg: spikeDmg });
+            }
           }
         }
 
@@ -11921,9 +12622,9 @@ function update(timestamp = 0) {
         if (b.type === 6 && b.hp > 0) {
           var _trapKey = b._netId || b.id;
           if (!e._capturedByTrap) {
-            // İlk temas — dondur
+            // İlk temas — nerede yakalandıysa oraya sabitle
             e._capturedByTrap = _trapKey;
-            e._capturedTrapX = b.x; e._capturedTrapY = b.y;
+            e._capturedTrapX = e.x; e._capturedTrapY = e.y;
             e.vx = 0; e.vy = 0;
             e._frozenAngle = (e.angle !== undefined ? e.angle : 0); // rotasyonu kilitle
             playSound(220, 0.08, 'sine', 0.22);
@@ -11939,7 +12640,7 @@ function update(timestamp = 0) {
           // Tuzakta tutulurken — konum + açı kilidi, hasar yok
           if (e._capturedByTrap === _trapKey) {
             e.vx = 0; e.vy = 0;
-            e.x = b.x; e.y = b.y;
+            e.x = e._capturedTrapX; e.y = e._capturedTrapY;
             if (e._frozenAngle !== undefined) e.angle = e._frozenAngle;
           }
         }
@@ -12123,11 +12824,11 @@ function update(timestamp = 0) {
       if (isOwn) continue;
       if (b.ownerClanId && player.clanId && b.ownerClanId === player.clanId) continue;
       const tdx = player.x - b.x, tdy = player.y - b.y;
-      const trapTriggerR = (b.radius || 35) + player.radius * 0.75;
+      const trapTriggerR = (b.radius || 42) + player.radius * 0.75;
       if (tdx * tdx + tdy * tdy <= trapTriggerR * trapTriggerR) {
         _trapCaughtBy = b._netId || b.id || b._bLid;
-        player.x = b.x;
-        player.y = b.y;
+        _trapCaughtX = player.x;
+        _trapCaughtY = player.y;
         player.vx = 0; player.vy = 0;
         player.momX = 0; player.momY = 0;
         playSound(140, 0.2, 'sawtooth', 0.35);
@@ -12139,20 +12840,28 @@ function update(timestamp = 0) {
     }
   }
 
-  // ── TRAP FREEZE: if caught in a trap, clamp firmly to trap center until destroyed ──
+  // ── TRAP FREEZE: if caught in a trap, freeze firmly in place (no center teleport) ──
   if (_trapCaughtBy) {
     const _ftChk = _buildingsMap.get(_trapCaughtBy) || buildings.find(b => (b._netId === _trapCaughtBy || b.id === _trapCaughtBy || b._bLid === _trapCaughtBy));
     if (!_ftChk || _ftChk.hp <= 0) {
       // Trap destroyed or removed — auto-free player client-side
       _trapCaughtBy = null;
+      _trapCaughtX = undefined; _trapCaughtY = undefined;
       playSound(320, 0.12, 'sine', 0.22);
     } else {
-      player.x = _ftChk.x;
-      player.y = _ftChk.y;
+      if (_trapCaughtX !== undefined) { player.x = _trapCaughtX; player.y = _trapCaughtY; }
       player.vx = 0; player.vy = 0;
       player.momX = 0; player.momY = 0;
       speedMult = 0;
     }
+  }
+
+  // ── SPIDER WEB ROOT: freeze player completely for 1.5s ──
+  if (player._webRootTimer > 0) {
+    player._webRootTimer--;
+    speedMult = 0;
+    player.vx = 0; player.vy = 0;
+    player.momX = 0; player.momY = 0;
   }
 
   // NaN guard — prevent position corruption from boost/momentum NaN
@@ -12235,15 +12944,15 @@ function update(timestamp = 0) {
     }
   }
 
-  // ── TRAP SNAP: tüm çarpışmalardan sonra tuzak merkezine sabitle ─────────
+  // ── TRAP LOCK: keep trapped player frozen in place (no teleport to center) ─────────
   if (_trapCaughtBy) {
-    const _trapB = _buildingsMap.get(_trapCaughtBy); // O(1) — was buildings.find()
-    if (_trapB) {
-      player.x = _trapB.x; player.y = _trapB.y;
+    const _trapB = _buildingsMap.get(_trapCaughtBy);
+    if (_trapB && _trapB.hp > 0) {
+      if (_trapCaughtX !== undefined) { player.x = _trapCaughtX; player.y = _trapCaughtY; }
       player.vx = 0; player.vy = 0; player.momX = 0; player.momY = 0;
     } else {
-      // Trap no longer exists — release player
       _trapCaughtBy = null;
+      _trapCaughtX = undefined; _trapCaughtY = undefined;
     }
   }
 
@@ -12668,6 +13377,12 @@ function update(timestamp = 0) {
     }
   }
   } catch(_mobRenderErr) {}
+
+  // Mob special attack effects (Spider webs, bear claws, poison, etc.)
+  try {
+    updateAndDrawMobAttackEffects(ctx);
+  } catch(_mobEffErr) {}
+
   // Ambient biome particles (behind everything)
   drawAmbientParticles();
   // Layer 5b: projectiles — single save/restore wrapping the whole batch (was one per projectile)
@@ -13235,6 +13950,7 @@ function initMultiplayer() {
   // delay was only reset in the second handler, so a brand-new first connection never
   // cleared a potentially stale timer, and the delay was never reset to 2 s on reconnect
   // unless the second handler ran first.
+  let _pingTimer = null;
   _socket.on('connect', () => {
     _mySocketId = _socket.id;
     _connected = true;
@@ -13242,8 +13958,11 @@ function initMultiplayer() {
     _reconnectDelay = 2000;
     if (_reconnectTimer) { clearTimeout(_reconnectTimer); _reconnectTimer = null; }
     _hideRcOverlay();
-    if (_pingEl) { _pingEl.style.display = ''; _pingEl.style.color = ''; }
-    if (_fpsEl) { _fpsEl.style.display = ''; _fpsEl.textContent = '⚡ -- FPS'; }
+    if (_pingEl) { _pingEl.style.display = ''; _pingEl.style.color = ''; _pingEl.textContent = '🌐 10ms'; }
+    if (_fpsEl) { _fpsEl.style.display = ''; _fpsEl.textContent = '⚡ 60 FPS'; }
+    if (_pingTimer) clearInterval(_pingTimer);
+    _pingTimer = setInterval(() => { if (_connected && _socket) _socket.emit('ping_req', Date.now()); }, 1500);
+    _socket.emit('ping_req', Date.now());
     const _authTok = localStorage.getItem('fb_auth_token') || '';
     _socket.emit('join', {
       name: player.name, skin: _playerSkin, color: playerColor,
@@ -13262,6 +13981,7 @@ function initMultiplayer() {
   _socket.on('disconnect', (reason) => {
     _connected = false;
     _otherPlayers.clear();
+    if (_pingTimer) { clearInterval(_pingTimer); _pingTimer = null; }
     if (_pingEl) { _pingEl.textContent = '🌐 ⚠️ bağlantı kesildi'; _pingEl.style.color = '#ff8888'; }
     if (reason !== 'io client disconnect') {
       _showRcOverlay();
@@ -13762,38 +14482,41 @@ function initMultiplayer() {
     if (typeof s.sc === 'number') player.score = Math.max(player.score || 0, s.sc);
     // Position is client-predicted. The server stores the latest input only;
     // applying its delayed echo here makes high-latency players rubber-band.
-    // Gold from server if more authoritative (server manages windmill/pickup income)
+    // Gold from server if more authoritative
     if (typeof s.g === 'number' && s.g > player.gold) player.gold = s.g;
-    // Resources from server
-    if (typeof s.wood === 'number') player.wood = s.wood;
-    if (typeof s.stone === 'number') player.stone = s.stone;
-    if (typeof s.apples === 'number') player.apples = s.apples;
     updateUI();
   });
 
-  // Helper: Starve.io-style leaderboard row renderer
+  // Helper: Starve.io-style leaderboard row renderer (Ranked by Gold)
   function _renderStarveLeaderboard(entries) {
     if (!lbRowsEl) return;
     if (!entries || !entries.length) {
       lbRowsEl.innerHTML = '<div style="color:rgba(255,255,255,0.3);text-align:center;padding:6px;font-size:10px;font-style:italic">Oyuncu aranıyor...</div>';
       return;
     }
-    lbRowsEl.innerHTML = entries.slice(0, 10).map(e => {
-      const isMe = e.isMe || (player && e.name === player.name);
-      const scoreNum = Number(e.score) || 0;
-      const pts = formatScore(scoreNum);
+    // Sort by gold descending
+    const sorted = [...entries].sort((a, b) => {
+      const gA = typeof a.gold === 'number' ? a.gold : (Number(a.score) || 0);
+      const gB = typeof b.gold === 'number' ? b.gold : (Number(b.score) || 0);
+      return gB - gA;
+    });
+    lbRowsEl.innerHTML = sorted.slice(0, 10).map((e, idx) => {
+      const isMe = e.isMe || (player && (e.name === player.name || e.id === _mySocketId));
+      const goldNum = typeof e.gold === 'number' ? e.gold : (Number(e.score) || 0);
+      const pts = formatScore(goldNum);
       const safeName = String(e.name || 'Oyuncu').replace(/[<>]/g, '').slice(0, 13);
+      const medal = idx === 0 ? '🥇 ' : idx === 1 ? '🥈 ' : idx === 2 ? '🥉 ' : `${idx + 1}. `;
       return `<div class="lb-row${isMe ? ' me' : ''}">
-        <span class="lb-name">${safeName}</span>
-        <span class="lb-score">${pts}</span>
+        <span class="lb-name">${medal}${safeName}</span>
+        <span class="lb-score" style="color:#ffd700;font-weight:900;">🪙 ${pts}</span>
       </div>`;
     }).join('');
   }
 
-  // Server-authoritative live leaderboard (broadcast every 3s)
+  // Server-authoritative live leaderboard (broadcast every 2s)
   _socket.on('live_lb', (entries) => {
     if (!Array.isArray(entries)) return;
-    var _lbSig = entries.map(e => e.name + ':' + (e.score||e.kills||0)).join('|');
+    var _lbSig = entries.map(e => e.name + ':' + (e.gold||e.score||0)).join('|');
     if (lbRowsEl._lastSig === _lbSig) return;
     lbRowsEl._lastSig = _lbSig;
     _renderStarveLeaderboard(entries);
@@ -13809,8 +14532,8 @@ function initMultiplayer() {
       const victim = _otherPlayers.get(victimId);
       if (victim && b) {
         victim._trappedBy = bNetId;
-        victim.x = b.x;
-        victim.y = b.y;
+        victim._trappedX = victim.x;
+        victim._trappedY = victim.y;
         victim.vx = 0;
         victim.vy = 0;
       }
@@ -13934,6 +14657,11 @@ function initMultiplayer() {
     floatingTexts.push({ x: res.x, y: res.y - res.radius - 14, text: '✨ Yenilendi!', alpha:1, life:45, color:'#aaffaa' });
   });
 
+  function isActiveMobShape(shape) {
+    if (!shape) return true;
+    return true; // Never drop any active server mob
+  }
+
   // ── New mob spawned after we joined — full visual data ────────────────
   _socket.on('mob_spawn', (m) => {
     if (!m || !m.id || !isActiveMobShape(m.shape)) return;
@@ -13979,14 +14707,14 @@ function initMultiplayer() {
         if (m.angle != null) ex.angle = m.angle;
         else if (m.vx !== 0 || m.vy !== 0) ex.angle = Math.atan2(m.vy, m.vx);
         ex._lastSeen = now;
-        if (!ex.color && m.color) { ex.color = m.color; ex.outline = m.outline; ex.shape = m.shape||'goblin'; ex.eyes = m.eyes||'#ffee00'; ex.radius = m.radius||36; }
-      } else if (m.color && m.radius) {
+        if (!ex.color && m.color) { ex.color = m.color; ex.outline = m.outline; ex.shape = m.shape||'wolf'; ex.eyes = m.eyes||'#ffee00'; ex.radius = m.radius||46; }
+      } else if (m.id) {
         enemies.push({ _netId: m.id, x: m.x, y: m.y, _targetX: m.x, _targetY: m.y,
           vx: m.vx||0, vy: m.vy||0,
-          hp: m.hp, maxHp: m.maxHp||m.hp, radius: m.radius,
-          color: m.color, outline: m.outline||'#333', shape: m.shape||'goblin',
-          eyes: m.eyes||'#ffee00', hitFlash: m.hitFlash||0, typeName: m.typeName||'Düşman',
-          dmg: m.dmg||10, speed: 0, xpReward: m.xpReward||25, goldReward: m.goldReward||5,
+          hp: m.hp || 100, maxHp: m.maxHp||m.hp||100, radius: m.radius||46,
+          color: m.color||'#6b4932', outline: m.outline||'#28170d', shape: m.shape||'wolf',
+          eyes: m.eyes||'#ffcc66', hitFlash: m.hitFlash||0, typeName: m.typeName||'🐺 Kurt',
+          dmg: m.dmg||28, speed: 0, xpReward: m.xpReward||50, goldReward: m.goldReward||20,
           provoked: true, lastHit: 0, lastBuildHit: 0, lastSpikeHit: 0, lastResHit: 0, lastHitSwingId: -1,
           angle: m.angle||0, _lastSeen: now, isBoss: m.isBoss||false });
         if (m.isBoss && !_serverBossId) {
@@ -14110,6 +14838,16 @@ function initMultiplayer() {
   });
 
   // ── Mob tuzaktan serbest kalma sync ────────────────────────────────────
+  _socket.on('mob_freed', ({ mobId }) => {
+    const e = enemies.find(en => en._netId === mobId);
+    if (!e) return;
+    e._capturedByTrap = null;
+    e._capturedTrapX = undefined;
+    e._capturedTrapY = undefined;
+    e._frozenAngle = undefined;
+    e._capturedTrapTime = undefined;
+  });
+
   _socket.on('boss_telegraph', (d) => {
     if (!d || !d.mobId) return;
     // Cap to prevent CPU spike: 3 on mobile (fewer ctx ops), 6 on desktop
@@ -14150,19 +14888,53 @@ function initMultiplayer() {
     if (id === _serverBossId) _hideServerBossBar();
   });
 
-  // ── Mob attacks local player (server-authoritative damage) ───────────
-  _socket.on('mob_attack', ({ dmg, hp, typeName }) => {
+  // ── Mob attacks player (server-authoritative damage & animation) ───────
+  _socket.on('mob_attack', ({ id, targetId, dmg, hp, typeName, shape, isWeb, x, y, angle, targetX, targetY }) => {
+    let attackingMob = null;
+    if (id) {
+      attackingMob = enemies.find(en => en._netId === id);
+      if (attackingMob) {
+        attackingMob.state = 'attack';
+        attackingMob.attackTimer = 0;
+        if (typeof angle === 'number') attackingMob.angle = angle;
+      }
+    }
+    const mobShape = shape || (attackingMob ? attackingMob.shape : 'wolf');
+    const ax = typeof x === 'number' ? x : (attackingMob ? attackingMob.x : player.x);
+    const ay = typeof y === 'number' ? y : (attackingMob ? attackingMob.y : player.y);
+    const tx = typeof targetX === 'number' ? targetX : player.x;
+    const ty = typeof targetY === 'number' ? targetY : player.y;
+    spawnMobAttackEffect(isWeb ? 'spider_web' : mobShape, ax, ay, angle, tx, ty);
+
+    if (targetId && _mySocketId && targetId !== _mySocketId) {
+      const tgt = _otherPlayers.get(targetId);
+      if (tgt) {
+        tgt.hp = Math.max(0, typeof hp === 'number' ? hp : tgt.hp - dmg);
+        spawnBlood(tgt.x, tgt.y, 6);
+        floatingTexts.push({ x: tgt.x, y: tgt.y - 40, text: `-${dmg} HP`, alpha: 1, life: 35, color: '#ff3333' });
+      }
+      return;
+    }
     if (_isDying || _spawnProtected) return;
+    if (isWeb) {
+      // Spider web projectile is in flight — damage & 1.5s root are applied on projectile contact!
+      return;
+    }
+    // Prevent phantom damage: verify attacking mob coordinates are within range of player
+    const mobDist = Math.hypot(player.x - ax, player.y - ay);
+    if (mobDist > 220) return; // ignore stale/desynced phantom attack
     const _prevHp = player.hp;
-    player.hp = Math.max(0, typeof hp === 'number' ? hp : player.hp - dmg);
-    shake(10);
-    spawnBlood(player.x, player.y, 7);
+    const directDmg = Math.max(1, Math.round(dmg * (1 - (player.armorBonus || 0))));
+    player.hp = Math.max(0, typeof hp === 'number' ? hp : player.hp - directDmg);
+    shake(12);
+    spawnBlood(player.x, player.y, 8);
     triggerDmgFlash();
     const _actualDmg = Math.round(_prevHp - player.hp);
-    const _showDmg = _actualDmg > 0 ? _actualDmg : (typeof dmg === 'number' ? Math.round(dmg) : 1);
-    floatingTexts.push({ x: player.x, y: player.y - 50, text: '-' + _showDmg + ' HP', alpha: 1, life: 35, color: '#ff3333' });
-    if (typeName) _lastDamager = { typeName };
-    playSound(95 + Math.floor(Math.random()*40), 0.16, 'sawtooth', 0.3);
+    const _showDmg = _actualDmg > 0 ? _actualDmg : directDmg;
+    const _sourceName = typeName || (mobShape === 'bear' ? '🐻 Ayı' : (mobShape === 'scorpion' ? '🦂 Akrep' : (mobShape === 'spider' ? '🕷️ Örümcek' : '🐺 Kurt')));
+    floatingTexts.push({ x: player.x, y: player.y - 50, text: `-${_showDmg} HP (${_sourceName})`, alpha: 1, life: 45, color: '#ff3333', big: true });
+    if (typeName) _lastDamager = { typeName: _sourceName };
+    playSound(95 + Math.floor(Math.random()*40), 0.16, 'sawtooth', 0.35);
     updateHpBar();
     if (player.hp <= 0 && !_isDying) die();
   });
@@ -14670,16 +15442,17 @@ function _drawLocalChatBubble() {
   ctx.restore();
 }
 
-// Leaderboard: ONLY real online players + local player (no fake AI)
+// Leaderboard: ONLY real online players + local player (Ranked by Gold)
 const _origUpdateLB = updateLeaderboard;
 updateLeaderboard = function() {
-  const playerScore = player.score || 0;
-  const all = [{ name: player.name || 'Sen', score: playerScore, kills: player.kills, isMe: true }];
+  const playerGold = player.gold || 0;
+  const all = [{ name: player.name || 'Sen', score: playerGold, gold: playerGold, kills: player.kills, isMe: true }];
   _otherPlayers.forEach((p) => {
     if (!p || !p.name) return;
-    all.push({ name: p.name, score: p.score || 0, kills: p.kills||0, isMe: false });
+    const pGold = typeof p.gold === 'number' ? p.gold : (Number(p.score) || 0);
+    all.push({ name: p.name, score: pGold, gold: pGold, kills: p.kills||0, isMe: false });
   });
-  all.sort((a, b) => (b.score || 0) - (a.score || 0));
+  all.sort((a, b) => (b.gold - a.gold) || (b.score - a.score));
   if (typeof _renderStarveLeaderboard === 'function') {
     _renderStarveLeaderboard(all);
   }
@@ -14749,7 +15522,7 @@ const _spikeEnemyCooldowns = new Map();
 // Local ID counter — gives offline enemies and local buildings a unique key for cooldown tracking
 let _eLidCounter = 0;
 // Trap freeze state for local player
-let _trapCaughtBy = null; // buildingId of the trap that caught us, or null
+let _trapCaughtBy = null, _trapCaughtX = undefined, _trapCaughtY = undefined; // buildingId of the trap that caught us, or null
 // Map of victimSocketId → trapBuildingNetId for traps WE own that caught others
 let _myTrapVictims = new Map();
 // Periodically purge stale cooldown entries to prevent unbounded Map growth
@@ -14834,11 +15607,11 @@ function checkBuildingDamage() {
         }
         // Trap PvP
         if (bp.type === 6) {
-          var trapR = (bp.radius || 35) + 32;
+          var trapR = (bp.radius || 42) + 32;
           if (Math.abs(_opdx) > trapR || Math.abs(_opdy) > trapR || _opd2 > trapR * trapR) continue;
           op._trappedBy = bp._netId;
-          op.x = bp.x;
-          op.y = bp.y;
+          op._trappedX = op.x;
+          op._trappedY = op.y;
           op.vx = 0;
           op.vy = 0;
           var trCdKey = 'trap_pvp_' + opId + '_' + bp._netId;
@@ -17205,174 +17978,32 @@ function _drawCampRes(ctx,node,t){
   }
 }
 
-// ── BOSS ÇİZİMİ ──────────────────────────────────────────────
 function _drawBossBody(ctx,c,bs,t){
-  var R=c.bossR,type=c.bossType;
-  var fl=bs.dmgFlashFrames>0;
-  var anim=Math.sin(t*0.05)*0.05;
-  if(fl){ctx.save();ctx.globalCompositeOperation='source-over';}
+  var R = c.bossR || 60;
+  var fl = bs.dmgFlashFrames > 0;
+  ctx.save();
+  ctx.fillStyle = fl ? '#ffffff' : (c.col || '#cc3333');
+  ctx.strokeStyle = c.out || '#220000';
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.arc(0, 0, R, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
 
-  if(type==='bear'){
-    // Vücut
-    ctx.fillStyle=fl?'#ff6644':c.col;ctx.strokeStyle=c.out;ctx.lineWidth=4;
-    ctx.beginPath();ctx.ellipse(0,R*0.08,R*0.68,R*0.78,0,0,Math.PI*2);ctx.fill();ctx.stroke();
-    // Kafa
-    ctx.beginPath();ctx.arc(0,-R*0.52,R*0.52,0,Math.PI*2);ctx.fill();ctx.stroke();
-    // Kulaklar
-    ctx.beginPath();ctx.arc(-R*0.33,-R*0.9,R*0.2,0,Math.PI*2);ctx.fill();ctx.stroke();
-    ctx.beginPath();ctx.arc(R*0.33,-R*0.9,R*0.2,0,Math.PI*2);ctx.fill();ctx.stroke();
-    ctx.fillStyle='#c07060';
-    ctx.beginPath();ctx.arc(-R*0.33,-R*0.9,R*0.1,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(R*0.33,-R*0.9,R*0.1,0,Math.PI*2);ctx.fill();
-    // Burun
-    ctx.fillStyle='#7a4030';ctx.strokeStyle=c.out;ctx.lineWidth=2;
-    ctx.beginPath();ctx.ellipse(0,-R*0.32,R*0.23,R*0.17,0,0,Math.PI*2);ctx.fill();ctx.stroke();
-    ctx.fillStyle='#111';
-    ctx.beginPath();ctx.arc(-R*0.08,-R*0.28,R*0.06,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(R*0.08,-R*0.28,R*0.06,0,Math.PI*2);ctx.fill();
-    // Gözler
-    ctx.fillStyle=c.eyeCol;
-    ctx.beginPath();ctx.arc(-R*0.22,-R*0.6,R*0.1,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(R*0.22,-R*0.6,R*0.1,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#000';
-    ctx.beginPath();ctx.arc(-R*0.22,-R*0.6,R*0.05,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(R*0.22,-R*0.6,R*0.05,0,Math.PI*2);ctx.fill();
-    // Kollar
-    ctx.fillStyle=fl?'#ff6644':c.col;ctx.strokeStyle=c.out;ctx.lineWidth=3;
-    ctx.beginPath();ctx.ellipse(-R*0.78,R*0.1+anim*R*8,R*0.22,R*0.52,-0.28,0,Math.PI*2);ctx.fill();ctx.stroke();
-    ctx.beginPath();ctx.ellipse(R*0.78,R*0.1-anim*R*8,R*0.22,R*0.52,0.28,0,Math.PI*2);ctx.fill();ctx.stroke();
-    // Pençe
-    ctx.strokeStyle='#1a0808';ctx.lineWidth=2;
-    for(var ci=0;ci<3;ci++){
-      ctx.beginPath();ctx.moveTo(-R*0.78+(ci-1)*R*0.1,R*0.52+anim*R*8);ctx.lineTo(-R*0.78+(ci-1)*R*0.1,R*0.68+anim*R*8);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(R*0.78+(ci-1)*R*0.1,R*0.52-anim*R*8);ctx.lineTo(R*0.78+(ci-1)*R*0.1,R*0.68-anim*R*8);ctx.stroke();
-    }
+  ctx.fillStyle = c.eyeCol || '#ffdd00';
+  ctx.beginPath();
+  ctx.arc(-R * 0.3, -R * 0.2, R * 0.16, 0, Math.PI * 2);
+  ctx.arc(R * 0.3, -R * 0.2, R * 0.16, 0, Math.PI * 2);
+  ctx.fill();
 
-  } else if(type==='yeti'){
-    // Tüylü beden
-    ctx.fillStyle=fl?'#aaddff':c.col;ctx.strokeStyle=c.out;ctx.lineWidth=4;
-    for(var si2=0;si2<8;si2++){var sa2=si2/8*Math.PI*2;ctx.beginPath();ctx.arc(Math.cos(sa2)*R*0.6,R*0.1+Math.sin(sa2)*R*0.7,R*0.35,0,Math.PI*2);ctx.fill();ctx.stroke();}
-    ctx.beginPath();ctx.ellipse(0,R*0.08,R*0.58,R*0.7,0,0,Math.PI*2);ctx.fill();ctx.stroke();
-    // Kafa
-    ctx.beginPath();ctx.arc(0,-R*0.56,R*0.5,0,Math.PI*2);ctx.fill();ctx.stroke();
-    // Buz kristal boynuzları
-    ctx.fillStyle='#88eeff';ctx.strokeStyle='#4488cc';ctx.lineWidth=2;
-    ctx.beginPath();ctx.moveTo(-R*0.25,-R*0.9);ctx.lineTo(-R*0.16,-R*1.22);ctx.lineTo(-R*0.08,-R*0.9);ctx.closePath();ctx.fill();ctx.stroke();
-    ctx.beginPath();ctx.moveTo(R*0.25,-R*0.9);ctx.lineTo(R*0.16,-R*1.22);ctx.lineTo(R*0.08,-R*0.9);ctx.closePath();ctx.fill();ctx.stroke();
-    // Gözler
-    ctx.fillStyle=c.eyeCol;
-    ctx.beginPath();ctx.arc(-R*0.22,-R*0.58,R*0.12,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(R*0.22,-R*0.58,R*0.12,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#fff';
-    ctx.beginPath();ctx.arc(-R*0.18,-R*0.61,R*0.05,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(R*0.18,-R*0.61,R*0.05,0,Math.PI*2);ctx.fill();
-    // Uzun kollar
-    ctx.fillStyle=fl?'#aaddff':c.col;ctx.strokeStyle=c.out;ctx.lineWidth=3;
-    ctx.beginPath();ctx.ellipse(-R*0.88,R*0.05+anim*R*7,R*0.24,R*0.58,-0.22,0,Math.PI*2);ctx.fill();ctx.stroke();
-    ctx.beginPath();ctx.ellipse(R*0.88,R*0.05-anim*R*7,R*0.24,R*0.58,0.22,0,Math.PI*2);ctx.fill();ctx.stroke();
-    // Ağız
-    ctx.fillStyle='#111';ctx.beginPath();ctx.ellipse(0,-R*0.32,R*0.18,R*0.09,0,0,Math.PI);ctx.fill();
-
-  } else if(type==='falcon'){
-    // Kanatlar
-    ctx.fillStyle=fl?'#ffcc44':c.col;ctx.strokeStyle=c.out;ctx.lineWidth=3;
-    var wf=Math.sin(t*0.12)*0.18;
-    ctx.beginPath();ctx.moveTo(-R*0.22,-R*0.08);ctx.quadraticCurveTo(-R*1.2,-R*0.6-wf*R,-R*1.55,R*0.12);ctx.quadraticCurveTo(-R*0.8,R*0.22,-R*0.22,R*0.1);ctx.fill();ctx.stroke();
-    ctx.beginPath();ctx.moveTo(R*0.22,-R*0.08);ctx.quadraticCurveTo(R*1.2,-R*0.6-wf*R,R*1.55,R*0.12);ctx.quadraticCurveTo(R*0.8,R*0.22,R*0.22,R*0.1);ctx.fill();ctx.stroke();
-    // Gövde
-    ctx.beginPath();ctx.ellipse(0,R*0.1,R*0.38,R*0.58,0,0,Math.PI*2);ctx.fill();ctx.stroke();
-    // Taç
-    ctx.fillStyle='#ffcc00';
-    for(var cri=0;cri<5;cri++){var cra=(cri-2)*0.32-Math.PI/2;ctx.beginPath();ctx.moveTo(Math.cos(cra)*R*0.28,-R*0.7);ctx.lineTo(Math.cos(cra)*R*0.14,-R*1.08-Math.abs(Math.sin(cra))*R*0.2);ctx.lineTo(Math.cos(cra+0.16)*R*0.28,-R*0.7);ctx.fill();}
-    // Kafa
-    ctx.fillStyle=fl?'#ffcc44':c.col;ctx.strokeStyle=c.out;ctx.lineWidth=3;
-    ctx.beginPath();ctx.arc(0,-R*0.62,R*0.37,0,Math.PI*2);ctx.fill();ctx.stroke();
-    // Gaga
-    ctx.fillStyle='#cc9900';ctx.strokeStyle='#8a6000';ctx.lineWidth=2;
-    ctx.beginPath();ctx.moveTo(-R*0.1,-R*0.5);ctx.lineTo(R*0.1,-R*0.5);ctx.lineTo(0,-R*0.24);ctx.closePath();ctx.fill();ctx.stroke();
-    // Gözler
-    ctx.fillStyle=c.eyeCol;ctx.beginPath();ctx.arc(-R*0.18,-R*0.68,R*0.09,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(R*0.18,-R*0.68,R*0.09,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-R*0.18,-R*0.68,R*0.045,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(R*0.18,-R*0.68,R*0.045,0,Math.PI*2);ctx.fill();
-    // Pençeler
-    ctx.fillStyle='#cc9900';ctx.strokeStyle='#8a6000';ctx.lineWidth=2;
-    ctx.beginPath();ctx.arc(-R*0.22,R*0.62,R*0.13,0,Math.PI*2);ctx.fill();ctx.stroke();
-    ctx.beginPath();ctx.arc(R*0.22,R*0.62,R*0.13,0,Math.PI*2);ctx.fill();ctx.stroke();
-
-  } else if(type==='nightlord'){
-    // Gölge aurası
-    var ag=ctx.createRadialGradient(0,0,R*0.5,0,0,R*1.6);
-    ag.addColorStop(0,'rgba(120,0,220,0.4)');ag.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle=ag;ctx.beginPath();ctx.arc(0,0,R*1.6,0,Math.PI*2);ctx.fill();
-    // Kaftan
-    ctx.fillStyle=fl?'#5500aa':c.col;ctx.strokeStyle=c.out;ctx.lineWidth=4;
-    ctx.beginPath();ctx.moveTo(-R*0.58,R);ctx.quadraticCurveTo(-R*0.82,0,-R*0.28,-R*0.48);ctx.lineTo(0,-R*0.78);ctx.lineTo(R*0.28,-R*0.48);ctx.quadraticCurveTo(R*0.82,0,R*0.58,R);ctx.fill();ctx.stroke();
-    // Kafa
-    ctx.beginPath();ctx.arc(0,-R*0.77,R*0.35,0,Math.PI*2);ctx.fill();ctx.stroke();
-    // Kapüşon
-    ctx.fillStyle='#0e0022';
-    ctx.beginPath();ctx.arc(0,-R*0.77,R*0.38,Math.PI*1.08,Math.PI*2-0.08);ctx.quadraticCurveTo(0,-R*1.28,0,-R*1.22);ctx.fill();
-    // Parlayan gözler
-    [[-R*0.15,-R*0.77],[R*0.15,-R*0.77]].forEach(function(ep){
-      var eg=ctx.createRadialGradient(ep[0],ep[1],0,ep[0],ep[1],R*0.14);
-      eg.addColorStop(0,c.eyeCol);eg.addColorStop(1,'rgba(180,0,255,0)');
-      ctx.fillStyle=eg;ctx.beginPath();ctx.arc(ep[0],ep[1],R*0.14,0,Math.PI*2);ctx.fill();
-    });
-    // Asa
-    ctx.strokeStyle='#7a3aaa';ctx.lineWidth=5;
-    ctx.beginPath();ctx.moveTo(R*0.5,R*0.75+anim*R*5);ctx.lineTo(R*0.5,-R*0.35+anim*R*5);ctx.stroke();
-    var sg=ctx.createRadialGradient(R*0.5,-R*0.42,0,R*0.5,-R*0.42,R*0.26);
-    sg.addColorStop(0,'rgba(200,80,255,0.92)');sg.addColorStop(1,'rgba(100,0,200,0)');
-    ctx.fillStyle=sg;ctx.beginPath();ctx.arc(R*0.5,-R*0.42+anim*R*3,R*0.22,0,Math.PI*2);ctx.fill();
-    // Uçan partiküller
-    for(var ni=0;ni<4;ni++){
-      var na=(t*0.04+ni*1.57)%(Math.PI*2);
-      ctx.save();ctx.globalAlpha=0.55+Math.sin(t*0.08+ni)*0.4;
-      ctx.fillStyle='#aa44ff';ctx.beginPath();ctx.arc(Math.cos(na)*R*0.78,Math.sin(na)*R*0.48,4.5+Math.sin(t*0.1+ni)*2,0,Math.PI*2);ctx.fill();ctx.restore();
-    }
-
-  } else if(type==='swamp'){
-    // Slime damlacıkları
-    for(var dri=0;dri<7;dri++){
-      var dra=dri/7*Math.PI*2,drp=(t*0.04+dri*0.78)%1;
-      ctx.save();ctx.globalAlpha=0.38*(1-drp);ctx.fillStyle='#55bb22';
-      ctx.beginPath();ctx.arc(Math.cos(dra)*R*0.68,Math.sin(dra)*R*0.68+drp*R*0.85,6*(1-drp*0.5),0,Math.PI*2);ctx.fill();ctx.restore();
-    }
-    // Gövde
-    ctx.fillStyle=fl?'#44ff22':c.col;ctx.strokeStyle=c.out;ctx.lineWidth=4;
-    ctx.beginPath();ctx.ellipse(0,R*0.18,R*0.72,R*0.68,0.12,0,Math.PI*2);ctx.fill();ctx.stroke();
-    // Kafa (öne eğik)
-    ctx.beginPath();ctx.arc(R*0.18,-R*0.38,R*0.48,0,Math.PI*2);ctx.fill();ctx.stroke();
-    // Ağız
-    ctx.fillStyle='#0a1a06';
-    ctx.beginPath();ctx.arc(R*0.18,-R*0.28,R*0.36,0.08,Math.PI-0.08);ctx.fill();
-    // Dişler
-    ctx.fillStyle='#cce8cc';
-    for(var ti=0;ti<5;ti++){var tx2=R*0.18+(ti-2)*R*0.13;ctx.beginPath();ctx.moveTo(tx2,-R*0.28);ctx.lineTo(tx2+R*0.055,-R*0.06);ctx.lineTo(tx2+R*0.11,-R*0.28);ctx.fill();}
-    // Gözler
-    ctx.fillStyle=c.eyeCol;
-    ctx.beginPath();ctx.arc(R*0.0,-R*0.54,R*0.12,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(R*0.36,-R*0.54,R*0.12,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#000';
-    ctx.beginPath();ctx.arc(R*0.0,-R*0.54,R*0.06,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(R*0.36,-R*0.54,R*0.06,0,Math.PI*2);ctx.fill();
-    // Dokunaçlar (kollar)
-    ctx.strokeStyle='#2a6a10';ctx.lineWidth=11;ctx.lineCap='round';
-    for(var tai=0;tai<3;tai++){var taa=-0.7+tai*1.1,taw=Math.sin(t*0.04+tai)*0.18;ctx.beginPath();ctx.moveTo(-R*0.52,R*0.1);ctx.quadraticCurveTo(-R*(0.82+taw),-R*(0.08+tai*0.1),-R*1.0*Math.cos(taa)*0.88,R*0.28*Math.sin(taa));ctx.stroke();}
-    ctx.lineWidth=9;
-    for(var tai2=0;tai2<3;tai2++){var taa2=0.18+tai2*1.08,taw2=Math.sin(t*0.04+tai2+1.2)*0.18;ctx.beginPath();ctx.moveTo(R*0.62,R*0.1);ctx.quadraticCurveTo(R*(0.88+taw2),-R*(0.08+tai2*0.1),R*1.0*Math.cos(taa2)*0.88,R*0.28*Math.sin(taa2));ctx.stroke();}
-  }
-
-  if(fl)ctx.restore();
-
-  // Aggro kırmızı çember
   if(bs.aggroed){
-    ctx.save();ctx.globalAlpha=0.28+Math.sin(t*0.15)*0.18;
-    ctx.strokeStyle='#ff3333';ctx.lineWidth=3;
-    ctx.beginPath();ctx.arc(0,0,R*1.15,0,Math.PI*2);ctx.stroke();
-    ctx.restore();
+    ctx.strokeStyle='#ff3333';
+    ctx.lineWidth=3;
+    ctx.beginPath();
+    ctx.arc(0,0,R*1.15,0,Math.PI*2);
+    ctx.stroke();
   }
+  ctx.restore();
 }
 
 })();

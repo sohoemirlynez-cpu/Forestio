@@ -14,9 +14,10 @@ const sessions = new Map();
 const mobs = new Map();
 const mobHitCooldowns = new Map();
 const MOB_TYPES = [
-  { shape: 'spider', color: '#181028', outline: '#080410', eyes: '#ff3300', typeName: 'Orman Orumcegi', radius: 46, hp: 108, dmg: 26 },
-  { shape: 'wolf', color: '#6b4932', outline: '#28170d', eyes: '#ffcc66', typeName: 'Kurt', radius: 38, hp: 88, dmg: 22 },
-  { shape: 'elephant', color: '#71808a', outline: '#26323a', eyes: '#d9f3ff', typeName: 'Fil', radius: 68, hp: 330, dmg: 38 },
+  { shape: 'wolf', color: '#6b4932', outline: '#28170d', eyes: '#ffcc66', typeName: '🐺 Kurt', radius: 46, hp: 300, dmg: 28, speed: 28, wanderSpeed: 14, xpReward: 80, goldReward: 35 },
+  { shape: 'scorpion', color: '#4a2818', outline: '#1a0d06', eyes: '#ff4400', typeName: '🦂 Akrep', radius: 52, hp: 520, dmg: 46, speed: 22, wanderSpeed: 12, xpReward: 150, goldReward: 65 },
+  { shape: 'bear', color: '#4a2f1b', outline: '#1a1008', eyes: '#ffaa00', typeName: '🐻 Ayı', radius: 65, hp: 950, dmg: 72, speed: 21, wanderSpeed: 11, xpReward: 320, goldReward: 140 },
+  { shape: 'spider', color: '#2a1a38', outline: '#0f0814', eyes: '#ff1100', typeName: '🕷️ Örümcek', radius: 48, hp: 380, dmg: 34, speed: 26, wanderSpeed: 13, xpReward: 100, goldReward: 45 },
 ];
 const dataFile = process.env.DATA_FILE || path.join(__dirname, 'forest-data.json');
 const authSecret = process.env.AUTH_SECRET || 'forestbrawl-auth-secret-change-me';
@@ -118,18 +119,39 @@ function createToken(user) {
 }
 
 function persistPlayerScore(player) {
-  const user = accountData.users[usernameKey(player.name)];
-  if (!user) return;
-  user.score = Math.max(user.score || 0, player.score || 0);
-  user.kills = Math.max(user.kills || 0, player.kills || 0);
+  if (!player || !player.name) return;
+  const key = usernameKey(player.name);
+  if (!accountData.users[key]) {
+    accountData.users[key] = {
+      id: accountData.nextId++,
+      username: player.name,
+      score: Number(player.gold ?? player.score ?? 0),
+      gold: Number(player.gold ?? 0),
+      coins: Number(player.gold ?? 0),
+      kills: Number(player.kills || 0),
+      rankId: player.rankId || 0,
+    };
+  }
+  const user = accountData.users[key];
+  user.gold = Math.max(user.gold || 0, Number(player.gold) || 0);
+  user.coins = Math.max(user.coins || 0, Number(player.gold) || 0);
+  user.score = Math.max(user.score || 0, user.gold, Number(player.score) || 0);
+  user.kills = Math.max(user.kills || 0, Number(player.kills) || 0);
   saveAccountData();
 }
 
 function leaderboard(tab) {
   const users = Object.values(accountData.users || {});
-  return users.sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, 100).map(user => ({
-    name: user.username, score: user.score || 0, rankId: user.rankId || 0,
-  }));
+  return users
+    .map(user => ({
+      name: user.username,
+      score: Number(user.gold ?? user.coins ?? user.score ?? 0),
+      gold: Number(user.gold ?? user.coins ?? 0),
+      rankId: user.rankId || 0,
+      kills: user.kills || 0
+    }))
+    .sort((a, b) => (b.gold - a.gold) || (b.score - a.score))
+    .slice(0, 100);
 }
 
 async function handleApi(request, response, requestPath) {
@@ -164,9 +186,12 @@ async function handleApi(request, response, requestPath) {
   if (requestPath === '/api/leaderboard/submit' && request.method === 'POST') {
     const submittedUser = getAuthUser(request) || accountData.users[usernameKey(body.name)];
     if (submittedUser) {
-      submittedUser.score = Math.max(submittedUser.score || 0, Number(body.score) || 0);
+      const g = Number(body.gold ?? body.coins ?? body.score ?? 0);
+      submittedUser.gold = Math.max(submittedUser.gold || 0, g);
+      submittedUser.coins = Math.max(submittedUser.coins || 0, g);
+      submittedUser.score = Math.max(submittedUser.score || 0, Number(body.score) || 0, g);
       submittedUser.kills = Math.max(submittedUser.kills || 0, Number(body.kills) || 0);
-      submittedUser.bestScore = Math.max(submittedUser.bestScore || 0, Number(body.score) || 0);
+      submittedUser.bestScore = Math.max(submittedUser.bestScore || 0, Number(body.score) || 0, g);
       submittedUser.rankId = rankInfo(submittedUser.xp || 0).rankId;
       saveAccountData();
     }
@@ -187,7 +212,9 @@ async function handleApi(request, response, requestPath) {
     user.timePlayed = (user.timePlayed || 0) + Math.max(0, Number(body.timePlayed) || 0);
     user.score = Math.max(user.score || 0, Number(body.score) || 0);
     user.bestScore = Math.max(user.bestScore || 0, Number(body.score) || 0);
-    user.coins = (user.coins || 0) + Math.max(0, Number(body.coins) || 0);
+    const coinAmt = Math.max(0, Number(body.coins ?? body.gold) || 0);
+    user.coins = Math.max(user.coins || 0, coinAmt);
+    user.gold = Math.max(user.gold || 0, coinAmt);
     const currentRank = rankInfo(user.xp);
     user.rankId = currentRank.rankId;
     saveAccountData();
@@ -314,42 +341,89 @@ function relayToOthers(socket, event, payload) {
   socket.broadcast.emit(event, payload);
 }
 
-const MAX_MOBS = 8;
-const MOB_RADIUS = 32;
-const MOB_AGGRO_RANGE = 320;
-const MOB_SPEED = 26;
-const MOB_WANDER_SPEED = 14;
-const MOB_CHASE_TIMEOUT = 5000;
+const MAX_MOBS = 16;
+const MOB_RADIUS = 36;
+const MOB_AGGRO_RANGE = 360;
+const MOB_SPEED = 24;
+const MOB_WANDER_SPEED = 12;
+const MOB_CHASE_TIMEOUT = 6000;
 
 function publicMob(mob) {
   return {
     id: mob.id, x: Math.round(mob.x), y: Math.round(mob.y), vx: Math.round(mob.vx * 10) / 10,
-    vy: Math.round(mob.vy * 10) / 10, hp: mob.hp, maxHp: mob.maxHp, radius: mob.radius,
+    vy: Math.round(mob.vy * 10) / 10, angle: mob.angle !== undefined ? Math.round(mob.angle * 100) / 100 : 0,
+    hp: mob.hp, maxHp: mob.maxHp, radius: mob.radius,
     color: mob.color, outline: mob.outline, shape: mob.shape, eyes: mob.eyes,
     typeName: mob.typeName, dmg: mob.dmg, xpReward: mob.xpReward, goldReward: mob.goldReward,
+    state: mob.state || 'idle',
     isBoss: false,
   };
 }
 
-function createMob(anchorX, anchorY) {
+function findSafeMobSpawn() {
+  const maxCoord = 3900;
+  const minMobDist = 300;
+  const minPlayerDist = 280;
+  for (let attempt = 0; attempt < 30; attempt++) {
+    const x = Math.round((Math.random() * 2 - 1) * maxCoord);
+    const y = Math.round((Math.random() * 2 - 1) * maxCoord);
+    let tooClose = false;
+    for (const m of mobs.values()) {
+      const dx = m.x - x, dy = m.y - y;
+      if (dx * dx + dy * dy < minMobDist * minMobDist) { tooClose = true; break; }
+    }
+    if (!tooClose) {
+      for (const p of players.values()) {
+        const dx = p.x - x, dy = p.y - y;
+        if (dx * dx + dy * dy < minPlayerDist * minPlayerDist) { tooClose = true; break; }
+      }
+    }
+    if (!tooClose) return { x, y };
+  }
+  return { x: Math.round((Math.random() * 2 - 1) * 3500), y: Math.round((Math.random() * 2 - 1) * 3500) };
+}
+
+function createMob() {
   const type = MOB_TYPES[(nextMobId - 1) % MOB_TYPES.length];
+  const { x, y } = findSafeMobSpawn();
   const angle = Math.random() * Math.PI * 2;
-  const distance = 260 + Math.random() * 520;
-  const maxCoord = 4300;
-  const x = Math.max(-maxCoord, Math.min(maxCoord, anchorX + Math.cos(angle) * distance));
-  const y = Math.max(-maxCoord, Math.min(maxCoord, anchorY + Math.sin(angle) * distance));
   const mob = {
     id: `mob-${nextMobId++}`, x, y, vx: 0, vy: 0, radius: type.radius || MOB_RADIUS,
     hp: type.hp, maxHp: type.hp, color: type.color, outline: type.outline, shape: type.shape,
-    eyes: type.eyes, typeName: type.typeName, dmg: type.dmg, xpReward: 25, goldReward: 5,
-    nextAttackAt: 0, wanderAngle: angle, targetId: null, chaseUntil: 0,
+    eyes: type.eyes, typeName: type.typeName, dmg: type.dmg,
+    speed: type.speed || MOB_SPEED, wanderSpeed: type.wanderSpeed || MOB_WANDER_SPEED,
+    xpReward: type.xpReward || 35, goldReward: type.goldReward || 15,
+    nextAttackAt: 0, wanderAngle: angle, angle, targetId: null, chaseUntil: 0, state: 'walk',
   };
   mobs.set(mob.id, mob);
+  io.emit('mob_spawn', publicMob(mob));
   return mob;
 }
 
-function ensureMobs(anchorX = 0, anchorY = 0) {
-  while (mobs.size < MAX_MOBS) createMob(anchorX, anchorY);
+function ensureMobs() {
+  while (mobs.size < MAX_MOBS) createMob();
+}
+
+function deletePlayerBuildings(playerId) {
+  if (!playerId) return;
+  const deletedIds = [];
+  for (const [id, b] of buildings) {
+    if (b.ownerId === playerId || b._ownerId === playerId) {
+      buildings.delete(id);
+      deletedIds.push(id);
+    }
+  }
+  if (deletedIds.length > 0) {
+    for (const id of deletedIds) {
+      io.emit('build_destroy', { id });
+      io.emit('trap_freed', { buildingId: id });
+    }
+    for (const p of players.values()) {
+      if (p.trappedBy && deletedIds.includes(p.trappedBy)) {
+        p.trappedBy = null;
+      }
+    }
+  }
 }
 
 function broadcastMobIds() {
@@ -363,6 +437,22 @@ setInterval(() => {
   const changed = [];
   const now = Date.now();
   for (const mob of mobs.values()) {
+    if (mob.trappedBy) {
+      const b = buildings.get(mob.trappedBy);
+      if (b && (b.hp ?? 100) > 0 && now < (mob.trappedUntil || 0)) {
+        mob.vx = 0;
+        mob.vy = 0;
+        mob.x = mob.trappedX ?? mob.x;
+        mob.y = mob.trappedY ?? mob.y;
+        changed.push(publicMob(mob));
+        continue; // Mob is trapped in place — CANNOT chase or attack distant players!
+      } else {
+        mob.trappedBy = null;
+        mob.trappedUntil = 0;
+        io.emit('mob_freed', { mobId: mob.id });
+      }
+    }
+
     let target = mob.targetId ? players.get(mob.targetId) : null;
     if (!target || (target.hp ?? 0) <= 0) {
       mob.targetId = null;
@@ -384,23 +474,94 @@ setInterval(() => {
     const targetDistance = target ? ((target.x - mob.x) ** 2 + (target.y - mob.y) ** 2) : Infinity;
     if (target && now < mob.chaseUntil) {
       const distance = Math.sqrt(targetDistance) || 1;
-      mob.vx = (target.x - mob.x) / distance * MOB_SPEED;
-      mob.vy = (target.y - mob.y) / distance * MOB_SPEED;
-      if (distance < 70 && now >= mob.nextAttackAt) {
-        target.hp = Math.max(0, (target.hp ?? 250) - mob.dmg);
-        mob.nextAttackAt = now + 900;
+      const spd = mob.speed || MOB_SPEED;
+      mob.angle = Math.atan2(target.y - mob.y, target.x - mob.x);
+      mob.vx = (target.x - mob.x) / distance * spd;
+      mob.vy = (target.y - mob.y) / distance * spd;
+
+      // Spider special ranged attack (distance 75 to 300, 5-second cooldown)
+      if ((mob.shape === 'spider' || mob.shape === 'orumcek') && distance < 300 && distance > 70 && now >= (mob.nextWebAt || 0)) {
+        mob.nextWebAt = now + 5000;
+        mob.nextAttackAt = now + 1600;
         mob.chaseUntil = now + MOB_CHASE_TIMEOUT;
-        io.to(target.id).emit('mob_attack', { dmg: mob.dmg, hp: target.hp, typeName: mob.typeName });
+        mob.state = 'attack';
+        const webDmg = 16;
+        io.emit('mob_attack', {
+          id: mob.id, targetId: target.id, dmg: webDmg,
+          typeName: mob.typeName, shape: mob.shape, isWeb: true,
+          x: mob.x, y: mob.y, angle: mob.angle, targetX: target.x, targetY: target.y
+        });
+      }
+      // Melee attack for all mobs (reliable reach & pacing, no phantom damage on stale targets)
+      else if (distance < (mob.radius + 60) && now >= (mob.nextAttackAt || 0) && (now - (target.stateAt || 0) < 600)) {
+        target.hp = Math.max(0, (target.hp ?? 250) - mob.dmg);
+        mob.nextAttackAt = now + 1600;
+        mob.chaseUntil = now + MOB_CHASE_TIMEOUT;
+        mob.state = 'attack';
+        io.emit('mob_attack', {
+          id: mob.id, targetId: target.id, dmg: mob.dmg, hp: target.hp,
+          typeName: mob.typeName, shape: mob.shape,
+          x: mob.x, y: mob.y, angle: mob.angle, targetX: target.x, targetY: target.y
+        });
         io.emit('players', { [target.id]: compactState(target) });
+        if (target.hp <= 0) {
+          deletePlayerBuildings(target.id);
+          io.to(target.id).emit('pvp_killed', { byName: mob.typeName });
+          io.emit('player_dead', { id: target.id });
+        }
+      } else if (mob.state === 'attack' && now >= (mob.nextAttackAt || 0) - 800) {
+        mob.state = 'walk';
       }
     } else {
       mob.targetId = null;
-      if (Math.random() < 0.04) mob.wanderAngle += (Math.random() - 0.5) * 1.2;
-      mob.vx = Math.cos(mob.wanderAngle) * MOB_WANDER_SPEED;
-      mob.vy = Math.sin(mob.wanderAngle) * MOB_WANDER_SPEED;
+      mob.state = 'walk';
+      if (Math.random() < 0.05) mob.wanderAngle += (Math.random() - 0.5) * 1.2;
+      const wspd = mob.wanderSpeed || MOB_WANDER_SPEED;
+      if (mob.x > 3800) { mob.wanderAngle = Math.PI * (0.8 + Math.random() * 0.4); mob.x = 3790; }
+      else if (mob.x < -3800) { mob.wanderAngle = Math.random() * 0.4 * Math.PI - 0.2 * Math.PI; mob.x = -3790; }
+      if (mob.y > 3800) { mob.wanderAngle = -Math.PI * (0.3 + Math.random() * 0.4); mob.y = 3790; }
+      else if (mob.y < -3800) { mob.wanderAngle = Math.PI * (0.3 + Math.random() * 0.4); mob.y = -3790; }
+      mob.angle = mob.wanderAngle;
+      mob.vx = Math.cos(mob.wanderAngle) * wspd;
+      mob.vy = Math.sin(mob.wanderAngle) * wspd;
     }
     mob.x += mob.vx;
     mob.y += mob.vy;
+    mob.x = Math.max(-3850, Math.min(3850, mob.x));
+    mob.y = Math.max(-3850, Math.min(3850, mob.y));
+
+    // Check building spike damage vs mobs on server
+    for (const b of buildings.values()) {
+      if (b.type === 3 && (b.hp ?? 100) > 0) { // Spike
+        const bdx = mob.x - b.x, bdy = mob.y - b.y;
+        const bdist2 = bdx * bdx + bdy * bdy;
+        const minBdist = mob.radius + 34;
+        if (bdist2 < minBdist * minBdist && bdist2 > 0) {
+          const bdist = Math.sqrt(bdist2) || 1;
+          const spikeTier = b.tier || 0;
+          const spikeDmg = [45, 75, 110, 160, 220, 300][spikeTier] || 45;
+          mob.hp = Math.max(0, mob.hp - spikeDmg);
+          mob.x += (bdx / bdist) * 16;
+          mob.y += (bdy / bdist) * 16;
+          mob.vx = (bdx / bdist) * 8;
+          mob.vy = (bdy / bdist) * 8;
+          io.emit('mob_update', { id: mob.id, hp: mob.hp, maxHp: mob.maxHp, hitFlash: 8 });
+          if (mob.hp <= 0) {
+            mobs.delete(mob.id);
+            const ownerId = b.ownerId || b._ownerId;
+            io.emit('mob_dead', { id: mob.id, killerId: ownerId });
+            const owner = players.get(ownerId);
+            if (owner) {
+              owner.gold = (owner.gold || 0) + (mob.goldReward || 20);
+              owner.score = (owner.score || 0) + (mob.goldReward || 20) * 3;
+              persistPlayerScore(owner);
+            }
+          }
+          break;
+        }
+      }
+    }
+
     changed.push(publicMob(mob));
   }
   if (changed.length) io.emit('mob_states', changed);
@@ -408,15 +569,40 @@ setInterval(() => {
 
 setInterval(broadcastMobIds, 2000);
 
-// Realtime leaderboard update every 3s
+// Realtime leaderboard update every 2s — sorted by current gold descending
 setInterval(() => {
   if (players.size === 0) return;
   const list = [...players.values()]
-    .map(p => ({ id: p.id, name: p.name || 'Oyuncu', score: p.score || 0, kills: p.kills || 0 }))
-    .sort((a, b) => (b.score || 0) - (a.score || 0))
+    .map(p => ({
+      id: p.id,
+      name: p.name || 'Oyuncu',
+      score: Number(p.gold ?? 0),
+      gold: Number(p.gold ?? 0),
+      kills: p.kills || 0
+    }))
+    .sort((a, b) => (b.gold - a.gold) || (b.score - a.score))
     .slice(0, 10);
   io.emit('live_lb', list);
-}, 3000);
+}, 2000);
+
+// Auto-cleanup dead, inactive, or disconnected players (prevents ghost/stuck player entities)
+setInterval(() => {
+  if (players.size === 0) return;
+  const now = Date.now();
+  for (const [id, player] of players) {
+    const socket = io.sockets.sockets.get(id);
+    const isDisconnected = !socket || !socket.connected;
+    const isTimedOut = (now - (player.stateAt || now) > 12000);
+    const isDead = (player.hp ?? 0) <= 0;
+    if (isDisconnected || isTimedOut || isDead) {
+      deletePlayerBuildings(id);
+      players.delete(id);
+      io.emit('player_dead', { id });
+      io.emit('player_left', { id, name: player.name || 'Oyuncu' });
+      broadcastOnlineCount();
+    }
+  }
+}, 2000);
 
 io.on('connection', (socket) => {
   socket.emit('online_count', io.engine.clientsCount);
@@ -441,16 +627,74 @@ io.on('connection', (socket) => {
     broadcastOnlineCount();
   });
 
+  socket.on('respawn', () => {
+    let player = players.get(socket.id);
+    const spawnPt = {
+      x: Math.round((Math.random() * 2 - 1) * 3200),
+      y: Math.round((Math.random() * 2 - 1) * 3200)
+    };
+    if (!player) {
+      player = {
+        id: socket.id,
+        name: 'Oyuncu',
+        hp: 250,
+        maxHp: 250,
+        score: 0,
+        sc: 0,
+        gold: 0,
+        kills: 0,
+        x: spawnPt.x,
+        y: spawnPt.y,
+        vx: 0,
+        vy: 0,
+        angle: 0,
+        stateAt: Date.now()
+      };
+      players.set(socket.id, player);
+    } else {
+      player.hp = player.maxHp ?? 250;
+      player.x = spawnPt.x;
+      player.y = spawnPt.y;
+      player.vx = 0;
+      player.vy = 0;
+      player.score = 0;
+      player.sc = 0;
+      player.kills = 0;
+      player.gold = 0;
+      player.trappedBy = null;
+      player.stateAt = Date.now();
+    }
+    socket.emit('own_respawn', { x: spawnPt.x, y: spawnPt.y });
+    socket.emit('self_state', { x: spawnPt.x, y: spawnPt.y, hp: player.hp, sc: player.score, g: player.gold });
+    io.emit('player_respawn', { id: socket.id, state: compactState(player) });
+    broadcastOnlineCount();
+  });
+
   socket.on('state', (data = {}) => {
-    const player = players.get(socket.id);
-    if (!player) return;
+    let player = players.get(socket.id);
+    if (!player) {
+      player = {
+        id: socket.id,
+        name: data.name || 'Oyuncu',
+        hp: data.hp ?? 250,
+        maxHp: data.maxHp ?? 250,
+        score: Number(data.score ?? data.sc ?? 0) || 0,
+        sc: Number(data.score ?? data.sc ?? 0) || 0,
+        gold: Number(data.gold ?? 0) || 0,
+        kills: Number(data.kills ?? 0) || 0,
+        x: Number(data.x) || 0,
+        y: Number(data.y) || 0,
+        stateAt: Date.now()
+      };
+      players.set(socket.id, player);
+    }
     if (player.trappedBy) {
       const b = buildings.get(player.trappedBy);
       if (b && (b.hp ?? 100) > 0) {
-        data.x = b.x;
-        data.y = b.y;
         data.vx = 0;
         data.vy = 0;
+        data.x = player.trappedX ?? data.x;
+        data.y = player.trappedY ?? data.y;
       } else {
         player.trappedBy = null;
       }
@@ -463,13 +707,17 @@ io.on('connection', (socket) => {
     if (typeof data.sc !== 'undefined') player.sc = Number(data.sc) || 0;
     if (typeof data.seq === 'number' && data.seq > (player.stateSeq || 0)) player.stateSeq = data.seq;
     player.stateAt = Date.now();
-    socket.emit('self_state', { x: player.x, y: player.y, hp: player.hp, sc: player.score, g: player.gold, wood: player.wood || 0, stone: player.stone || 0, apples: player.apples || 0, seq: data.seq });
+    socket.emit('self_state', { x: player.x, y: player.y, hp: player.hp, sc: player.score, g: player.gold, seq: data.seq });
     socket.broadcast.volatile.emit('players', { [socket.id]: compactState(player) });
   });
 
   socket.on('swing', (data = {}) => {
-    const attacker = players.get(socket.id);
-    if (!attacker || attacker.hp <= 0) return;
+    let attacker = players.get(socket.id);
+    if (!attacker) {
+      attacker = { id: socket.id, name: 'Oyuncu', hp: 250, maxHp: 250, stateAt: Date.now() };
+      players.set(socket.id, attacker);
+    }
+    if ((attacker.hp ?? 250) <= 0) attacker.hp = 250;
     const weapon = Number(data.weapon) === 2 ? 2 : 1;
     const range = weapon === 2 ? 140 : 128;
     const spread = weapon === 2 ? Math.PI / 3.25 : Math.PI / 2.57;
@@ -493,10 +741,12 @@ io.on('connection', (socket) => {
       io.emit('players', { [targetId]: compactState(target) });
       socket.emit('pvp_confirm', { targetId, dmg: damage, targetName: target.name || 'Oyuncu' });
       if (target.hp <= 0) {
+        deletePlayerBuildings(targetId);
         target.kills = target.kills || 0;
         attacker.kills = (attacker.kills || 0) + 1;
         attacker.score = (attacker.score || 0) + 150;
         io.to(targetId).emit('pvp_killed', { byName: attacker.name || 'Oyuncu' });
+        io.emit('player_dead', { id: targetId });
         socket.emit('pvp_kill_confirm', { targetId, targetName: target.name || 'Oyuncu' });
         io.emit('pvp_kill_feed', { killer: attacker.name || 'Oyuncu', victim: target.name || 'Oyuncu', streak: attacker.kills });
         persistPlayerScore(attacker);
@@ -517,10 +767,12 @@ io.on('connection', (socket) => {
     io.emit('players', { [data.targetId]: compactState(target) });
     socket.emit('pvp_confirm', { targetId: data.targetId, dmg: damage, targetName: target.name || 'Oyuncu' });
     if (target.hp <= 0) {
+      deletePlayerBuildings(data.targetId);
       target.kills = target.kills || 0;
       attacker.kills = (attacker.kills || 0) + 1;
       attacker.score = (attacker.score || 0) + 150;
       io.to(data.targetId).emit('pvp_killed', { byName: attacker.name || 'Oyuncu' });
+      io.emit('player_dead', { id: data.targetId });
       socket.emit('pvp_kill_confirm', { targetId: data.targetId, targetName: target.name || 'Oyuncu' });
       io.emit('pvp_kill_feed', { killer: attacker.name || 'Oyuncu', victim: target.name || 'Oyuncu', streak: attacker.kills });
       persistPlayerScore(attacker);
@@ -539,10 +791,12 @@ io.on('connection', (socket) => {
     io.emit('players', { [data.targetId]: compactState(target) });
     socket.emit('spike_dmg_confirm', { targetId: data.targetId, dmg: damage, targetName: target.name || 'Oyuncu' });
     if (target.hp <= 0 && owner) {
+      deletePlayerBuildings(data.targetId);
       target.kills = target.kills || 0;
       owner.kills = (owner.kills || 0) + 1;
       owner.score = (owner.score || 0) + 150;
       io.to(data.targetId).emit('pvp_killed', { byName: owner.name || 'Diken' });
+      io.emit('player_dead', { id: data.targetId });
       socket.emit('pvp_kill_confirm', { targetId: data.targetId, targetName: target.name || 'Oyuncu' });
       io.emit('pvp_kill_feed', { killer: owner.name || 'Diken', victim: target.name || 'Oyuncu', streak: owner.kills });
       persistPlayerScore(owner);
@@ -555,10 +809,28 @@ io.on('connection', (socket) => {
     if (!target || target.hp <= 0) return;
     if (owner && ((owner.clanId && owner.clanId === target.clanId) || (owner.team && target.team && owner.team === target.team))) return;
     target.trappedBy = data.buildingId;
-    const b = buildings.get(data.buildingId);
-    if (b) { target.x = b.x; target.y = b.y; }
+    target.trappedUntil = Date.now() + 4000;
+    target.vx = 0;
+    target.vy = 0;
     io.to(data.victimId).emit('trap_caught', { buildingId: data.buildingId });
-    io.emit('trap_triggered', { buildingId: data.buildingId, victimId: data.victimId });
+    io.emit('trap_triggered', { buildingId: data.buildingId, victimId: data.victimId, x: target.x, y: target.y });
+  });
+
+  socket.on('mob_trap_hit', (data = {}) => {
+    const mob = mobs.get(String(data.mobId || ''));
+    if (!mob || mob.hp <= 0) return;
+    const b = buildings.get(String(data.buildingId || ''));
+    if (b && (b.hp ?? 100) > 0) {
+      mob.trappedBy = data.buildingId;
+      mob.trappedUntil = Date.now() + 4000;
+      mob.trappedX = mob.x;
+      mob.trappedY = mob.y;
+      mob.vx = 0;
+      mob.vy = 0;
+      mob.state = 'walk';
+      mob.nextAttackAt = Date.now() + 3500; // Freeze attack while trapped
+      io.emit('mob_trapped', { mobId: mob.id, buildingId: data.buildingId, x: mob.x, y: mob.y });
+    }
   });
 
   socket.on('trap_owner_push', (data = {}) => {
@@ -602,9 +874,20 @@ io.on('connection', (socket) => {
 
   socket.on('chat', (data = {}) => io.emit('chat', { name: players.get(socket.id)?.name || 'Oyuncu', msg: String(data.msg || '').slice(0, 200), id: socket.id }));
   socket.on('ping_req', (data) => socket.emit('pong_res', data));
+  socket.on('player_dead', (data = {}) => {
+    const pid = data.id || socket.id;
+    deletePlayerBuildings(pid);
+    relayToOthers(socket, 'player_dead', { id: pid });
+  });
+  socket.on('player_died', (data = {}) => {
+    const pid = data.id || socket.id;
+    deletePlayerBuildings(pid);
+    relayToOthers(socket, 'player_dead', { id: pid });
+  });
   socket.on('respawn', () => {
     const player = players.get(socket.id);
     if (!player) return;
+    deletePlayerBuildings(socket.id);
     player.hp = player.maxHp ?? 250;
     player.x = 0; player.y = 0;
     player.trappedBy = null;
@@ -617,8 +900,48 @@ io.on('connection', (socket) => {
     if (player) player.hp = Math.min(player.maxHp ?? 250, (player.hp ?? 0) + 30);
     socket.emit('self_state', { hp: player?.hp ?? 250 });
   });
+  socket.on('ping_req', (t) => {
+    socket.emit('pong_res', { t });
+  });
 
-  for (const event of ['pvp_hit', 'pvp_confirm', 'pvp_kill_confirm', 'pvp_killed', 'player_dead', 'pvp_kill_feed', 'kill_streak', 'server_announce', 'build_limit_reached', 'bounty_update', 'bounty_kill_reward', 'trap_triggered', 'spike_dmg_confirm', 'boost_received', 'res_sync', 'res_respawn', 'mob_spawn', 'mob_states', 'mob_states_b', 'mob_ids', 'mob_kill_reward', 'mob_killed_broadcast', 'mob_update', 'mob_trapped', 'boss_telegraph', 'mob_trap_freed', 'mob_dead', 'mob_attack', 'spike_push', 'trap_victim_push', 'trap_victim_freed', 'train_tick', 'train_state', 'train_hit', 'train_boarded', 'train_board_denied', 'train_exited']) {
+  socket.on('mob_hit_req', (data = {}) => {
+    const mobId = String(data.mobId || '');
+    const mob = mobs.get(mobId);
+    if (!mob || mob.hp <= 0) return;
+    let attacker = players.get(socket.id);
+    if (!attacker) {
+      attacker = { id: socket.id, name: 'Oyuncu', hp: 250, maxHp: 250, stateAt: Date.now() };
+      players.set(socket.id, attacker);
+    }
+    const now = Date.now();
+    const hitKey = `${socket.id}:${mob.id}`;
+    if (now - (mobHitCooldowns.get(hitKey) || 0) < 40) return;
+    mobHitCooldowns.set(hitKey, now);
+
+    const dmg = Math.max(1, Math.min(180, Number(data.dmg) || 25));
+    mob.hp = Math.max(0, mob.hp - dmg);
+    mob.targetId = socket.id;
+    mob.chaseUntil = now + MOB_CHASE_TIMEOUT;
+
+    io.emit('mob_update', { id: mob.id, hp: mob.hp, maxHp: mob.maxHp, hitFlash: 8, targetId: socket.id });
+
+    if (mob.hp <= 0) {
+      mobs.delete(mob.id);
+      io.emit('mob_dead', { id: mob.id, killerId: socket.id });
+      socket.emit('mob_kill_reward', {
+        xp: mob.xpReward || 35,
+        gold: mob.goldReward || 15,
+        score: Math.round((mob.xpReward || 35) * 0.75 + (mob.goldReward || 15) * 3),
+        typeName: mob.typeName
+      });
+      io.emit('mob_killed_broadcast', { typeName: mob.typeName, killerName: attacker.name || 'Oyuncu' });
+      setTimeout(() => {
+        if (players.size > 0) ensureMobs();
+      }, 4000 + Math.random() * 2000);
+    }
+  });
+
+  for (const event of ['pvp_hit', 'pvp_confirm', 'pvp_kill_confirm', 'pvp_killed', 'pvp_kill_feed', 'kill_streak', 'server_announce', 'build_limit_reached', 'bounty_update', 'bounty_kill_reward', 'trap_triggered', 'spike_dmg_confirm', 'boost_received', 'res_sync', 'res_respawn', 'mob_spawn', 'mob_states', 'mob_states_b', 'mob_ids', 'mob_kill_reward', 'mob_killed_broadcast', 'mob_update', 'mob_trapped', 'boss_telegraph', 'mob_trap_freed', 'mob_dead', 'mob_attack', 'spike_push', 'trap_victim_push', 'trap_victim_freed', 'train_tick', 'train_state', 'train_hit', 'train_boarded', 'train_board_denied', 'train_exited']) {
     socket.on(event, (data) => relayToOthers(socket, event, { ...(data || {}), fromId: socket.id }));
   }
 
@@ -758,6 +1081,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     for (const key of mobHitCooldowns.keys()) if (key.startsWith(`${socket.id}:`)) mobHitCooldowns.delete(key);
+    deletePlayerBuildings(socket.id);
     const player = players.get(socket.id);
     leaveClan(socket, false);
     players.delete(socket.id);

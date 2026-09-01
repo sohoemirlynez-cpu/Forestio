@@ -871,9 +871,9 @@ body>div:not(#app):not(#spawn-overlay):not(#toast):not(#modal-login):not(#modal-
 /* ══════════════════════════════════════
    TAB PANELS
 ══════════════════════════════════════ */
-.tab-panel{display:none;flex-direction:column;gap:6px;overflow-y:auto;scrollbar-width:none;flex:1;min-height:0;height:0;touch-action:pan-y;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+.tab-panel{display:none;flex-direction:column;gap:6px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;flex:1 1 0%;min-height:0;height:100%;touch-action:pan-y;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
 .tab-panel::-webkit-scrollbar{display:none;}
-.tab-panel.active{display:flex;animation:tabIn .25s cubic-bezier(.34,1.2,.64,1);}
+.tab-panel.active{display:flex !important;animation:tabIn .25s cubic-bezier(.34,1.2,.64,1);}
 /* Prevent flex-shrink from squashing tab content — force scroll instead */
 .tab-panel > *{flex-shrink:0;}
 @keyframes tabIn{from{opacity:0;transform:translateY(8px) scale(.98);}to{opacity:1;transform:translateY(0) scale(1);}}
@@ -1278,8 +1278,8 @@ body>div:not(#app):not(#spawn-overlay):not(#toast):not(#modal-login):not(#modal-
 
   /* ── Tab panels: fill center, scroll internally ── */
   .tab-panel{
-    flex:1;min-height:0;
-    height:0;                  /* forces flex children to scroll */
+    flex:1 1 0%;min-height:0;
+    height:100%;
     overflow-y:auto;
     overflow-x:hidden;
     -webkit-overflow-scrolling:touch;
@@ -1289,7 +1289,7 @@ body>div:not(#app):not(#spawn-overlay):not(#toast):not(#modal-login):not(#modal-
     scrollbar-width:none;
   }
   .tab-panel::-webkit-scrollbar{display:none;}
-  .tab-panel.active{display:flex;}
+  .tab-panel.active{display:flex !important;}
 
   /* ── Right panel: compact sidebar ── */
   #panel-right{
@@ -5707,10 +5707,12 @@ function formatScore(score){
 
 function renderLbEntries(entries, container){
   if(!entries||!entries.length){container.innerHTML='<div style="text-align:center;padding:18px;opacity:.5">Henüz kayıt yok</div>';return;}
-  container.innerHTML=entries.map(e=>{
-    const scoreVal = formatScore(e.score);
+  container.innerHTML=entries.map((e, idx)=>{
+    const goldNum = typeof e.gold === 'number' ? e.gold : (Number(e.score) || 0);
+    const scoreVal = formatScore(goldNum);
+    const medal = idx === 0 ? '🥇 ' : idx === 1 ? '🥈 ' : idx === 2 ? '🥉 ' : `${idx + 1}. `;
     return `<div class="lb-entry">
-      <div class="lb-info"><div class="lb-name">${e.name}</div><div class="lb-score">${scoreVal}</div></div>
+      <div class="lb-info"><div class="lb-name">${medal}${e.name}</div><div class="lb-score" style="color:#ffd700;font-weight:800;">🪙 ${scoreVal}</div></div>
     </div>`;
   }).join('');
 }
@@ -5739,10 +5741,13 @@ renderLb();
 
 // Online count — gerçek Socket.io bağlantısından al
 function _updateOnlineDisplay(n){
-  const el=document.getElementById('online-count');
-  if(el)el.textContent=n.toLocaleString('tr-TR');
-  const sel=document.getElementById('stat-online');
-  if(sel)sel.textContent=n>999?(n/1000).toFixed(1)+'K':String(n);
+  const count = Math.max(1, Number(n) || 1);
+  const el = document.getElementById('online-count');
+  if(el) el.textContent = count.toLocaleString('tr-TR');
+  const sel = document.getElementById('stat-online');
+  if(sel) sel.textContent = count > 999 ? (count/1000).toFixed(1)+'K' : String(count);
+  const ael = document.getElementById('auth-online-cnt');
+  if(ael) ael.textContent = count.toLocaleString('tr-TR');
 }
 (function(){
   try{
@@ -5781,7 +5786,7 @@ function goTab(tab){
 }
 function setNav(btn, tab){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
+  if(btn && btn.classList) btn.classList.add('active');
   Object.values(TAB_MAP).forEach(id=>{
     const el=document.getElementById(id);
     if(el){el.classList.remove('active');}
@@ -5793,14 +5798,18 @@ function setNav(btn, tab){
   const rightPanel=document.getElementById('panel-right');
   if(leftPanel){leftPanel.style.display=(tab==='oyun'||tab==='profil')?'':'none';}
   if(rightPanel){rightPanel.style.display=(tab==='oyun'||tab==='siralama')?'':'none';}
-  // Tab-specific init
-  if(tab!=='profil') stopProfilePreview();
-  if(tab!=='sezon' && typeof _spStopAnim==='function') _spStopAnim();
-  if(tab==='profil') initProfileTab();
-  if(tab==='magaza') initShopSystem();
-  if(tab==='siralama') renderFullLb('daily');
-  if(tab==='deri') renderSkins('karakter');
-  if(tab==='sezon') initSeasonTab();
+  // Tab-specific init wrapped in try/catch to prevent blocking tab switches
+  try {
+    if(tab!=='profil' && typeof stopProfilePreview==='function') stopProfilePreview();
+    if(tab!=='sezon' && typeof _spStopAnim==='function') _spStopAnim();
+    if(tab==='profil' && typeof initProfileTab==='function') initProfileTab();
+    if(tab==='magaza' && typeof initShopSystem==='function') initShopSystem();
+    if(tab==='siralama' && typeof renderFullLb==='function') renderFullLb('daily');
+    if(tab==='deri' && typeof renderSkins==='function') renderSkins('karakter');
+    if(tab==='sezon' && typeof initSeasonTab==='function') initSeasonTab();
+  } catch(err){
+    console.error('setNav tab init error:', err);
+  }
 }
 
 // ============================================================
@@ -7161,20 +7170,32 @@ function _renderRankRoad(currentRankId, xp, d){
 async function renderFullLb(tab){
   const el=document.getElementById('full-leaderboard');
   if(!el)return;
-  el.innerHTML='<div style="text-align:center;padding:20px;opacity:.5">⏳ Yükleniyor...</div>';
+  el.innerHTML='<div style="text-align:center;padding:24px;opacity:.6;font-weight:700">⏳ Yükleniyor...</div>';
   try{
     const r=await fetch('/api/leaderboard?tab='+tab);
     const d=await r.json();
     const data=d.entries||[];
-    el.innerHTML=data.length?data.map(e=>{
-      const scoreVal=formatScore(e.score);
-      return `<div class="full-lb-row">
-        <span class="flb-name">${e.name}</span>
-        <span class="flb-score" style="text-align:right">${scoreVal}</span>
+    if(!data.length){
+      el.innerHTML='<div style="text-align:center;padding:24px;opacity:.5;font-weight:700">Henüz kayıt yok — Oyna ve sıralamaya gir!</div>';
+      return;
+    }
+    const rankEmojis=['🥇','🥈','🥉'];
+    el.innerHTML=data.map((e,idx)=>{
+      const goldNum = typeof e.gold === 'number' ? e.gold : (Number(e.score) || 0);
+      const scoreVal=formatScore(goldNum);
+      const rankNum=idx+1;
+      const topClass=rankNum===1?' top1':rankNum===2?' top2':rankNum===3?' top3':'';
+      const rankBadge=rankNum<=3?rankEmojis[rankNum-1]:`#${rankNum}`;
+      const avatarEmoji=['🦊','🐺','🐻','🐰','🦁','🐉','🤖','🥷'][idx%8];
+      return `<div class="full-lb-row${topClass}">
+        <span class="flb-rank">${rankBadge}</span>
+        <span class="flb-avatar">${avatarEmoji}</span>
+        <span class="flb-name">${e.name||'Oyuncu'}</span>
+        <span class="flb-score" style="color:#ffd700;font-weight:900;">🪙 ${scoreVal}</span>
       </div>`;
-    }).join(''):'<div style="text-align:center;padding:20px;opacity:.5">Henüz kayıt yok — Oyna ve sıralamaya gir!</div>';
-  }catch{
-    el.innerHTML='<div style="text-align:center;padding:20px;opacity:.5">Yüklenemedi</div>';
+    }).join('');
+  }catch(err){
+    el.innerHTML='<div style="text-align:center;padding:24px;color:#ff6b6b;font-weight:700">⚠️ Sıralama verisi alınamadı</div>';
   }
 }
 function setFullLbTab(btn,tab){
@@ -8215,7 +8236,7 @@ function renderSkins(cat){
     return `<div class="skin-card${effectiveLocked?' locked':''}${isSelected?' selected':''}" ${dataAttrs} onclick="skinCardClick(this)">
       ${cat==='karakter'
         ? `<canvas class="skin-preview-canvas" width="56" height="56" data-skin="${s.id}"></canvas>`
-        : `<div style="font-size:24px;margin:4px 0">${ITEM_ICONS[s.id]||'❓'}</div>`}
+        : `<div style="font-size:26px;margin:6px 0">${ITEM_ICONS[s.id]||'❓'}</div>`}
       <div class="skin-card-name">${s.name}</div>
       <div class="skin-card-rarity ${s.cls}">${s.rarity}</div>
       ${effectiveLocked?`<div class="skin-card-lock"><div class="skin-lock-icon">🔒</div><div class="skin-lock-hint">${s.hint||''}</div></div>`:''}
@@ -8228,19 +8249,15 @@ function renderSkins(cat){
     let _t=0;
     const _prevCanvases = Array.from(document.querySelectorAll('#skins-grid .skin-preview-canvas'));
     function _drawPreviews(){
-      const modal = document.getElementById('skins-modal');
-      if (modal && modal.style.display === 'none') { _skinsAnimId = null; return; }
+      const tab = document.getElementById('tab-deri');
+      if (!tab || !tab.classList.contains('active')) { _skinsAnimId = null; return; }
       _t += 0.9;
       for (let i = 0; i < _prevCanvases.length; i++) {
         const cv = _prevCanvases[i];
         const sid = cv.dataset.skin;
         const cx2 = cv.getContext('2d');
         cx2.clearRect(0, 0, 56, 56);
-        cx2.save(); cx2.translate(28, 28);
-        cx2.rotate(Math.PI / 2);
-        drawSkinBody(cx2, 15, sid, _t, false);
-        if (typeof drawSkinEyesOverlay === 'function') drawSkinEyesOverlay(cx2, 15, sid, false);
-        cx2.restore();
+        _drawInGame(cx2, 56, sid, _t + i * 7);
       }
       _skinsAnimId = requestAnimationFrame(_drawPreviews);
     }
@@ -8410,14 +8427,17 @@ function setQuality(q,btn){
   });
 })();
 
-// ── Season Countdown — Sezon 1 bitiş: 25 Ağustos 2026 ──────────
+// ── Season Countdown ─────────────────────────────────────────
 (function(){
-  const SEASON_END = new Date('2026-08-25T00:00:00Z');
   function _updateSeasonDays(){
-    const now = new Date();
-    const diffMs = SEASON_END - now;
-    const days = diffMs > 0 ? Math.ceil(diffMs / 86400000) : 0;
-    const txt = days > 0 ? days + ' gün kaldı' : 'Sezon bitti';
+    const now = Date.now();
+    const seasonPeriod = 45 * 86400000; // 45 day rolling cycle
+    const baseSeason = new Date('2026-09-01T00:00:00Z').getTime();
+    const currentCycle = Math.floor((now - baseSeason) / seasonPeriod);
+    const nextEnd = baseSeason + (currentCycle + 1) * seasonPeriod;
+    const diffMs = nextEnd - now;
+    const days = Math.max(1, Math.ceil(diffMs / 86400000));
+    const txt = days + ' gün kaldı';
     const e1 = document.getElementById('sp-days');
     const e2 = document.getElementById('season-banner-days');
     const e3 = document.getElementById('season-modal-days');
@@ -8438,29 +8458,26 @@ function setQuality(q,btn){
     {icon:'👹',name:'Güçlü Düşmanlar',dur:4800},
     {icon:'💎',name:'Kristal Gecesi',dur:6000},
   ];
-  // Pick an event based on current hour so it stays stable per session
-  const now=new Date();
-  const ev=EVENTS[now.getHours()%EVENTS.length];
-  // Event started at hour boundary, runs for ev.dur seconds
-  const secIntoHour=now.getMinutes()*60+now.getSeconds();
-  let rem=ev.dur-secIntoHour%ev.dur;
   const iconEl=document.getElementById('event-banner-icon');
   const nameEl=document.getElementById('event-banner-name');
   const timerEl=document.getElementById('event-banner-timer');
-  if(iconEl)iconEl.textContent=ev.icon;
-  if(nameEl)nameEl.textContent=ev.name;
   function tick(){
-    if(rem<=0){ rem=ev.dur; }
-    const h=Math.floor(rem/3600);
-    const m=Math.floor((rem%3600)/60);
-    const s=rem%60;
-    const txt=h>0
-      ? String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')
-      : String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-    if(timerEl)timerEl.textContent=txt;
-    rem--;
+    const now = new Date();
+    const ev = EVENTS[now.getHours() % EVENTS.length];
+    if(iconEl && iconEl.textContent !== ev.icon) iconEl.textContent = ev.icon;
+    if(nameEl && nameEl.textContent !== ev.name) nameEl.textContent = ev.name;
+    const secIntoHour = now.getMinutes() * 60 + now.getSeconds();
+    const rem = Math.max(1, ev.dur - (secIntoHour % ev.dur));
+    const h = Math.floor(rem / 3600);
+    const m = Math.floor((rem % 3600) / 60);
+    const s = rem % 60;
+    const txt = h > 0
+      ? String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0')
+      : String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    if(timerEl) timerEl.textContent = txt;
   }
-  tick();setInterval(tick,1000);
+  tick();
+  setInterval(tick, 1000);
 })();
 
 // ── Live Game Feed ──────────────────────────────────────────────
